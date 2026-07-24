@@ -609,7 +609,9 @@
 
   let supabase = null;
   if (SUPABASE_CONFIGURED && window.supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
+    });
   }
 
   /* ---------------------------- Static mock data ---------------------------- */
@@ -621,7 +623,19 @@
       { date: '2004 — 2010', title: 'Primary School', subtitle: 'Foundational Education', org: 'Example Primary School', desc: 'Completed foundational education, building the study habits that carried through to a career in IT.' },
     ],
     experience: [
-      { date: '2023 — Present', title: 'IT Support', subtitle: 'Dohome public company limited', org: 'Bangna Branch | Bangprakong | Chachoengsao ', desc: 'Network Infrastructure: Managed and configured network systems, L2/L3 Managed Switches, and cabling infrastructure (UTP, STP, Fiber Optic SFP SM/MM), supporting over 300 clients., oversee helpdesk tickets, and maintain network/server infrastructure for the organization.' },
+      { date: '2023 — Present', title: 'IT Support', subtitle: 'Dohome public company limited', org: 'Bangna Branch | Bangprakong | Chachoengsao', desc: 'Network Infrastructure: Managed and configured network systems, L2/L3 Managed Switches, and cabling infrastructure (UTP, STP, Fiber Optic SFP SM/MM), supporting over 300 clients.', responsibilities: [
+        'Network Infrastructure: Managed and configured network systems, L2/L3 Managed Switches, and cabling infrastructure (UTP, STP, Fiber Optic SFP SM/MM), supporting over 300 clients.',
+        'Wireless Network: Administered Wi-Fi networks and AC Controllers (50 APs), along with tuning 2.4GHz/5GHz signal performance.',
+        'Server & Virtualization: Maintained the Server Room, UPS systems, and virtualization environments (VMware, Proxmox, ZStack).',
+        'Software & Collaboration: Provided Microsoft 365 administration, Windows OS support, Shared Drives, SMB/Samba, and Print Server management.',
+        'Remote Support & Monitoring: Delivered remote support to over 300 users while monitoring systems via Zabbix and OCS.',
+        'Hardware Asset: Managed IT hardware inventory including 100+ computers, 40 printers, 10 notebooks, 40 IP phones, and 9 POS terminals.',
+        'CCTV & Surveillance: Troubleshot and maintained CCTV systems (NVR, XVR, DSS, RG6) with over 200 IP and analog cameras.',
+        'POS & Peripherals: Maintained POS systems and peripherals such as barcode scanners, thermal printers, and cash drawers.',
+        'Access Control: Managed security systems including Access Control, Face Recognition, and Fingerprint Scanners.',
+        'MDM (Mobile Device Management): Administered 70 handheld devices, deployed internal applications, and resolved user issues.',
+        'IT Inventory & Asset Lifecycle: Developed IT inventory systems and stock cards, while managing spare parts and expired assets.',
+      ] },
       { date: '2021 — 2023', title: 'IT Office Setup', subtitle: 'IT Department', org: 'Dohome public company limited', desc: 'Provided first- and second-line support for 150+ end users, resolved hardware/software issues, and administered user accounts.' },
       { date: '2020 — 2021', title: 'IT Service', subtitle: 'Technical Support', org: 'FOR YOU ALL CO., LTD.', desc: 'Handled incoming support tickets, performed PC deployments, and documented recurring issues into a growing knowledge base.' },
       { date: '2016 — 2020', title: 'IT Support', subtitle: 'Guest Services & IT', org: 'fountaintreeresort', desc: 'Handled on-site IT support and helpdesk duties for resort operations and guest-facing systems.' },
@@ -873,9 +887,9 @@
           <div class="experience-detail grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
             <div class="overflow-hidden">
               <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">Key Responsibilities (placeholder)</p>
+                <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">${item.responsibilities ? 'Key Responsibilities' : 'Key Responsibilities (placeholder)'}</p>
                 <ul class="space-y-1.5">
-                  ${PLACEHOLDER_RESPONSIBILITIES.map(r => `<li class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex gap-2"><span class="text-accent-600 dark:text-accent-400">&bull;</span><span>${r}</span></li>`).join('')}
+                  ${(item.responsibilities || PLACEHOLDER_RESPONSIBILITIES).map(r => `<li class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex gap-2"><span class="text-accent-600 dark:text-accent-400">&bull;</span><span>${r}</span></li>`).join('')}
                 </ul>
               </div>
             </div>
