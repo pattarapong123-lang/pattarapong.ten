@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pattarapong Tensuna | IT Specialist Portfolio</title>
+<meta name="description" content="Pattarapong Tensuna — IT Support, IT Officer, Helpdesk &amp; IT Administrator specialist. Infrastructure, troubleshooting, and system administration expertise." />
+
+<!-- Google Fonts: Inter (body/headings) + JetBrains Mono (code-style accents) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+        colors: {
+          accent: {
+            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
+            400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
+            800: '#1e40af', 900: '#1e3a8a',
+          },
+        },
+        animation: {
+          'fade-in-up': 'fadeInUp 0.7s ease-out forwards',
+          blink: 'blink 1s step-end infinite',
+        },
+        keyframes: {
+          fadeInUp: {
+            '0%': { opacity: 0, transform: 'translateY(24px)' },
+            '100%': { opacity: 1, transform: 'translateY(0)' },
+          },
+          blink: {
+            '0%, 100%': { opacity: 1 },
+            '50%': { opacity: 0 },
+          },
+        },
+      },
+    },
+  };
+</script>
+
+<!-- Supabase JS client (used only if a real project is configured; otherwise the site falls back to static data) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { transition: background-color 0.3s ease, color 0.3s ease; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 9999px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  .skill-bar-fill { transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* Pulsing "breathing" glow behind the hero profile photo */
+  .glow-frame { position: relative; }
+  .glow-frame::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(59,130,246,0.55) 0%, rgba(59,130,246,0) 70%);
+    box-shadow: 0 0 25px 8px rgba(59,130,246,0.45);
+    animation: glowPulse 2.8s ease-in-out infinite;
+    z-index: 0;
+  }
+  .dark .glow-frame::before {
+    background: radial-gradient(circle, rgba(96,165,250,0.6) 0%, rgba(96,165,250,0) 70%);
+    box-shadow: 0 0 30px 10px rgba(96,165,250,0.5);
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.35; transform: scale(0.96); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
+
+  /* Journey section: Education / Work Experience tab pills */
+  .timeline-tab-btn {
+    color: #475569; /* slate-600 */
+    background-color: #e2e8f0; /* slate-200 */
+  }
+  .timeline-tab-btn:hover {
+    color: #1e293b; /* slate-800 */
+    background-color: #cbd5e1; /* slate-300 */
+  }
+  .dark .timeline-tab-btn {
+    color: #cbd5e1; /* slate-300 */
+    background-color: #1e293b; /* slate-800 */
+  }
+  .dark .timeline-tab-btn:hover {
+    color: #f1f5f9; /* slate-100 */
+    background-color: #334155; /* slate-700 */
+  }
+  .timeline-tab-btn.is-active,
+  .timeline-tab-btn.is-active:hover {
+    color: #fff;
+    background-color: #f97316; /* orange-500 */
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+  }
+  .dark .timeline-tab-btn.is-active,
+  .dark .timeline-tab-btn.is-active:hover {
+    background-color: #f97316; /* orange-500 */
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45);
+  }
+  #timeline.is-switching {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  /* Glowing circular icon nodes on the timeline's center line — uniform solid blue for every entry */
+  .timeline-node {
+    box-shadow: 0 0 16px 3px rgba(37, 99, 235, 0.4);
+  }
+  .dark .timeline-node {
+    box-shadow: 0 0 18px 4px rgba(59, 130, 246, 0.5);
+  }
+
+  /* Career Transition Gallery: seamless infinite horizontal marquee */
+  .marquee-track {
+    animation: marqueeScroll 32s linear infinite;
+  }
+  .marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); } /* exactly one (of two duplicated) sets wide, so the loop resets unnoticed */
+  }
+  .marquee-fade {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+  }
+</style>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans antialiased">
+
+<!-- ============================= NAVIGATION ============================= -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300 border-b border-transparent">
+  <nav class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 flex items-center justify-between h-16">
+    <a href="#home" class="font-bold text-lg tracking-tight text-slate-900 dark:text-white">
+      My Portforio<span class="text-accent-600 dark:text-accent-400">.</span>
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <li><a href="#journey" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Journey</a></li>
+      <li><a href="#skills" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Skills</a></li>
+      <li><a href="#projects" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Projects</a></li>
+      <li><a href="#about" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">About</a></li>
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <!-- Dark/light toggle -->
+      <button id="theme-toggle" aria-label="Toggle dark mode" class="w-10 h-10 grid place-items-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+        <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.36 6.36-1.06-1.06M6.7 6.7 5.64 5.64m12.72 0-1.06 1.06M6.7 17.3l-1.06 1.06M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg>
+        <svg id="icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
+      </button>
+
+      <!-- Mobile hamburger -->
+      <button id="menu-toggle" aria-label="Toggle menu" class="md:hidden w-10 h-10 grid place-items-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+        <svg id="icon-hamburger" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu panel -->
+  <div id="mobile-menu" class="md:hidden hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-200 dark:border-slate-800">
+    <ul class="flex flex-col px-5 py-4 gap-1 text-sm font-medium">
+      <li><a href="#journey" class="mobile-link block py-2.5">Journey</a></li>
+      <li><a href="#skills" class="mobile-link block py-2.5">Skills</a></li>
+      <li><a href="#projects" class="mobile-link block py-2.5">Projects</a></li>
+      <li><a href="#about" class="mobile-link block py-2.5">About</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============================= HERO SECTION ============================= -->
+<section id="home" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+  <!-- decorative background glow -->
+  <div class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute top-1/4 -left-24 w-96 h-96 bg-accent-400/20 dark:bg-accent-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 -right-24 w-96 h-96 bg-accent-300/20 dark:bg-accent-600/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 w-full">
+    <div class="grid md:grid-cols-2 gap-12 md:gap-8 items-center">
+    <!-- Left Column: Introduction -->
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-medium mb-6 animate-fade-in-up">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        Available for Work
+      </div>
+
+      <p class="text-orange-600 dark:text-orange-400 font-mono text-sm sm:text-base mb-3 animate-fade-in-up" style="animation-delay:.05s">Hi, my name is</p>
+
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4 uppercase animate-fade-in-up" style="animation-delay:.1s">
+        Pattarapong Tensuna
+      </h1>
+
+      <div class="h-9 sm:h-10 mb-6 animate-fade-in-up" style="animation-delay:.15s">
+        <p class="text-xl sm:text-2xl font-mono font-medium text-slate-600 dark:text-slate-400">
+          <span id="typing-role" class="text-orange-600 dark:text-orange-400"></span><span class="border-r-2 border-orange-600 dark:border-orange-400 animate-blink ml-0.5"></span>
+        </p>
+      </div>
+
+      <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl animate-fade-in-up" style="animation-delay:.2s">
+        I keep systems running and people productive. From day-to-day helpdesk support to network
+        infrastructure and IT administration, I bring calm, methodical troubleshooting and a genuine
+        drive to make technology work for the people who rely on it.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mb-10 animate-fade-in-up" style="animation-delay:.25s">
+        <a href="#projects" class="px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5">
+          My Projects
+        </a>
+        <a href="./assets/Pattarapong_Tensuna_CV.pdf.pdf" download class="px-6 py-3 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-accent-600 dark:hover:border-accent-400 text-slate-700 dark:text-slate-300 font-semibold text-sm transition-all hover:-translate-y-0.5">
+          Download CV
+        </a>
+      </div>
+
+      <!-- Social links -->
+      <div class="flex items-center gap-4 animate-fade-in-up" style="animation-delay:.3s">
+        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-10 h-10 grid place-items-center rounded-full border border-slate-300 dark:border-slate-700 hover:border-accent-600 dark:hover:border-accent-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.42.36.78 1.07.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg>
+        </a>
+        <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-10 h-10 grid place-items-center rounded-full border border-slate-300 dark:border-slate-700 hover:border-accent-600 dark:hover:border-accent-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+        </a>
+        <a href="mailto:pattarapong123@gmail.com" aria-label="Email" class="w-10 h-10 grid place-items-center rounded-full border border-slate-300 dark:border-slate-700 hover:border-accent-600 dark:hover:border-accent-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.83.67-1.5 1.5-1.5h16.5c.83 0 1.5.67 1.5 1.5v10.5c0 .83-.67 1.5-1.5 1.5H3.75c-.83 0-1.5-.67-1.5-1.5V6.75Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Profile Photo -->
+    <div class="flex justify-center md:justify-end animate-fade-in-up" style="animation-delay:.15s">
+      <div class="glow-frame w-[320px] h-[320px] max-w-full">
+        <div class="relative z-10 w-full h-full rounded-full ring-4 ring-white dark:ring-slate-900 shadow-xl shadow-accent-600/10 overflow-hidden">
+          <img
+            src="./photos/p1.png"
+            alt="Portrait of Pattarapong Tensuna"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CAREER TRANSITION GALLERY ============================= -->
+<section id="gallery" class="py-24 border-t border-slate-200 dark:border-slate-800 overflow-hidden">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
+    <div class="reveal text-center max-w-2xl mx-auto mb-14">
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+        Career Transition <span class="text-orange-500 dark:text-orange-400">Gallery</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400">
+        Continuous horizontal marquee displaying the operational environments and infrastructure systems that shaped my system-level mindset.
+      </p>
+    </div>
+  </div>
+
+  <div class="marquee-wrapper marquee-fade relative w-full">
+    <div class="marquee-track flex gap-6 w-max">
+      <!-- First set of gallery images -->
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm">
+        <img src="./photos/s1.jpeg" alt="Career transition environment 1" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm">
+        <img src="./photos/s2.jpeg" alt="Career transition environment 2" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm">
+        <img src="./photos/s3.jpeg" alt="Career transition environment 3" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm">
+        <img src="./photos/s4.jpeg" alt="Career transition environment 4" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm">
+        <img src="./photos/s5.jpeg" alt="Career transition environment 5" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm">
+        <img src="./photos/s6.jpeg" alt="Career transition environment 6" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <!-- Duplicate set — makes the loop seamless (track scrolls exactly one set-width, -50%, then resets unnoticed) -->
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm" aria-hidden="true">
+        <img src="./photos/s1.jpeg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm" aria-hidden="true">
+        <img src="./photos/s2.jpeg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm" aria-hidden="true">
+        <img src="./photos/s3.jpeg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm" aria-hidden="true">
+        <img src="./photos/s4.jpeg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm" aria-hidden="true">
+        <img src="./photos/s5.jpeg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm" aria-hidden="true">
+        <img src="./photos/s6.jpeg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= JOURNEY / TIMELINE SECTION ============================= -->
+<section id="journey" class="py-24 border-t border-slate-200 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/40">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
+    <div class="reveal text-center max-w-2xl mx-auto mb-10">
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+        My <span class="text-orange-500 dark:text-orange-400">Journey</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400">
+        From IT support fundamentals to system-level infrastructure expertise, exploring a path of continuous learning and growth.
+      </p>
+    </div>
+
+    <!-- Timeline tabs: Education / Work Experience -->
+    <div class="reveal flex justify-center gap-3 mb-14">
+      <button
+        type="button"
+        data-timeline-tab="education"
+        class="timeline-tab-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m12 3 9.5 4.5L12 12 2.5 7.5 12 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 10v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M21.5 7.5V15"/></svg>
+        Education
+      </button>
+      <button
+        type="button"
+        data-timeline-tab="experience"
+        class="timeline-tab-btn is-active inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5A1.5 1.5 0 0 1 21.75 9v9a1.5 1.5 0 0 1-1.5 1.5H3.75A1.5 1.5 0 0 1 2.25 18V9a1.5 1.5 0 0 1 1.5-1.5Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6a2.25 2.25 0 0 1 2.25-2.25h3A2.25 2.25 0 0 1 15.75 6v1.5M2.25 12.75h19.5"/></svg>
+        Work Experience
+      </button>
+    </div>
+
+    <div id="timeline" class="relative max-w-3xl mx-auto pl-10 sm:pl-0 transition-all duration-300 ease-out"></div>
+  </div>
+</section>
+
+<!-- ============================= SKILLS SECTION ============================= -->
+<section id="skills" class="py-24 border-t border-slate-200 dark:border-slate-800">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
+    <div class="reveal text-center max-w-2xl mx-auto mb-10">
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">My <span class="text-orange-500 dark:text-orange-400">Skills</span></h2>
+      <p class="text-slate-600 dark:text-slate-400">
+        Technical expertise categorized by operational layers, spanning support workflows, systems, networking, hardware, administration, and security.
+      </p>
+    </div>
+
+    <div id="skills-tabs" class="reveal flex flex-wrap justify-center gap-2.5 mb-12"></div>
+
+    <div id="skills-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+  </div>
+</section>
+
+<!-- ============================= PROJECTS / EXPERIENCE SECTION ============================= -->
+<section id="projects" class="py-24 border-t border-slate-200 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/40">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
+    <div class="reveal text-center max-w-2xl mx-auto mb-10">  
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">My <span class="text-orange-500 dark:text-orange-500">Projects</span></h2>
+      <p class="text-slate-600 dark:text-slate-400">
+        A curated set of projects highlighting hands-on IT support, infrastructure, and systems administration work.
+      </p>
+    </div>
+
+    <div id="projects-tabs" class="reveal flex flex-wrap justify-center gap-2.5 mb-12"></div>
+
+    <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- ============================= ABOUT + CONTACT (combined, bottom section) ============================= -->
+<section class="py-24 border-t border-slate-200 dark:border-slate-800">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
+
+    <!-- About Me -->
+    <div id="about">
+      <div class="reveal text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+          About <span class="text-orange-500 dark:text-orange-400">Me</span>
+        </h2>
+        <p class="text-slate-600 dark:text-slate-400">
+          A closer look at who I am, day to day — the person behind the tickets, the systems, and the network diagrams.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-5 gap-10 items-start">
+        <div class="md:col-span-3 reveal space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+          <p>
+            I'm an IT professional focused on keeping infrastructure reliable and users productive.
+            My day-to-day spans <span class="text-slate-900 dark:text-white font-medium">helpdesk &amp; end-user support</span>,
+            <span class="text-slate-900 dark:text-white font-medium"> system administration</span>, and
+            <span class="text-slate-900 dark:text-white font-medium"> network infrastructure</span> — diagnosing
+            issues quickly, documenting fixes clearly, and building processes that prevent the same ticket
+            from coming back twice.
+          </p>
+
+          <div class="pt-2">
+            <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-4">Personal Details</h3>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Full Name</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">Pattarapong Tensuna</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v3M17.25 3v3M3.75 8.25h16.5M5.25 5.25h13.5A1.5 1.5 0 0 1 20.25 6.75v12A1.5 1.5 0 0 1 18.75 20.25H5.25A1.5 1.5 0 0 1 3.75 18.75v-12A1.5 1.5 0 0 1 5.25 5.25Z"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Age</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">28 years old</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v3M17.25 3v3M3.75 8.25h16.5M5.25 5.25h13.5A1.5 1.5 0 0 1 20.25 6.75v12A1.5 1.5 0 0 1 18.75 20.25H5.25A1.5 1.5 0 0 1 3.75 18.75v-12A1.5 1.5 0 0 1 5.25 5.25Z"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Date of Birth</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">March 12, 1998</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.83.67-1.5 1.5-1.5h1.36c.6 0 1.13.41 1.28 1l.8 3a1.35 1.35 0 0 1-.42 1.38l-1.2 1c1.02 2.1 2.75 3.84 4.86 4.86l1-1.2a1.35 1.35 0 0 1 1.38-.42l3 .8c.59.15 1 .68 1 1.28v1.36c0 .83-.67 1.5-1.5 1.5h-.75C8.83 20.25 3.75 15.17 3.75 9V6.75Z"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Phone Number</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">+66 89 123 4567</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 4.5h9A2.25 2.25 0 0 1 18.75 6.75v10.5A2.25 2.25 0 0 1 16.5 19.5h-9a2.25 2.25 0 0 1-2.25-2.25V6.75A2.25 2.25 0 0 1 7.5 4.5ZM10.5 16.5h3"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Line ID</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">pattarapong.it</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.83.67-1.5 1.5-1.5h16.5c.83 0 1.5.67 1.5 1.5v10.5c0 .83-.67 1.5-1.5 1.5H3.75c-.83 0-1.5-.67-1.5-1.5V6.75Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m3 7 9 6 9-6"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Email</p>
+                  <a href="mailto:pattarapong123@gmail.com" class="text-sm font-medium text-slate-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">pattarapong123@gmail.com</a>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 sm:col-span-2">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.5-7.5 11.25-7.5 11.25S4.5 18 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Address</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">123 Sukhumvit Road, Watthana, Bangkok 10110, Thailand</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h4.5M4.5 3.75h15a.75.75 0 0 1 .75.75v15a.75.75 0 0 1-.75.75h-15a.75.75 0 0 1-.75-.75v-15a.75.75 0 0 1 .75-.75Z"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Nationality</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">Thai</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div class="w-9 h-9 shrink-0 grid place-items-center rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5A1.5 1.5 0 0 1 21.75 9v9a1.5 1.5 0 0 1-1.5 1.5H3.75A1.5 1.5 0 0 1 2.25 18V9a1.5 1.5 0 0 1 1.5-1.5Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6a2.25 2.25 0 0 1 2.25-2.25h3A2.25 2.25 0 0 1 15.75 6v1.5"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Availability</p>
+                  <p class="text-sm font-medium text-slate-900 dark:text-white">Full-time &amp; Contract</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 reveal">
+          <div class="rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm aspect-[4/5]">
+            <img src="./photos/a1.jpg" alt="Portrait of Pattarapong Tensuna" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="border-t border-slate-200 dark:border-slate-800 py-10">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <p class="text-sm text-slate-500 dark:text-slate-400">
+      &copy; <span id="footer-year"></span> Pattarapong Tensuna. All rights reserved.
+    </p>
+
+    <ul class="flex items-center gap-6 text-sm font-medium">
+      <li><a href="#skills" class="hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Skills</a></li>
+      <li><a href="#projects" class="hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Projects</a></li>
+      <li><a href="#about" class="hover:text-accent-600 dark:hover:text-accent-400 transition-colors">About</a></li>
+    </ul>
+
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-slate-500 dark:text-slate-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.42.36.78 1.07.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg>
+      </a>
+      <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-slate-500 dark:text-slate-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      </a>
+      <a href="mailto:pattarapong123@gmail.com" aria-label="Email" class="text-slate-500 dark:text-slate-400 hover:text-accent-600 dark:hover:text-accent-400 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0-.83.67-1.5 1.5-1.5h16.5c.83 0 1.5.67 1.5 1.5v10.5c0 .83-.67 1.5-1.5 1.5H3.75c-.83 0-1.5-.67-1.5-1.5V6.75Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m3 7 9 6 9-6"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================= JAVASCRIPT ============================= -->
+<script>
+(() => {
+  'use strict';
+
+  /* ---------------------------------------------------------------------
+   * Supabase configuration
+   * Replace these placeholders with your real project values to enable
+   * live data (skills/projects/experience).
+   * Until then, the site runs entirely on the static MOCK_DATA below.
+   * ------------------------------------------------------------------- */
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const SUPABASE_CONFIGURED = SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20;
+
+  let supabase = null;
+  if (SUPABASE_CONFIGURED && window.supabase) {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+
+  /* ---------------------------- Static mock data ---------------------------- */
+  const MOCK_DATA = {
+    education: [
+      { date: '2016 — 2020', title: 'Bachelor of Science', subtitle: 'Information Technology', org: 'Example University', desc: 'Studied networking, systems administration, and information security fundamentals.' },
+      { date: '2013 — 2016', title: 'High School Diploma', subtitle: 'Science-Math Program', org: 'Example High School', desc: 'Built a foundation in mathematics and computer science ahead of specializing in IT.' },
+      { date: '2010 — 2013', title: 'Middle School', subtitle: 'General Education', org: 'Example Secondary School', desc: 'Developed early interest in computers and technology alongside core academic subjects.' },
+      { date: '2004 — 2010', title: 'Primary School', subtitle: 'Foundational Education', org: 'Example Primary School', desc: 'Completed foundational education, building the study habits that carried through to a career in IT.' },
+    ],
+    experience: [
+      { date: '2023 — Present', title: 'IT Support', subtitle: 'IT Department', org: 'Dohome public company limited.', desc: 'Manage day-to-day IT operations, oversee helpdesk tickets, and maintain network/server infrastructure for the organization.' },
+      { date: '2021 — 2023', title: 'IT Office Setup', subtitle: 'IT Department', org: 'Dohome public company limited', desc: 'Provided first- and second-line support for 150+ end users, resolved hardware/software issues, and administered user accounts.' },
+      { date: '2020 — 2021', title: 'IT Service', subtitle: 'Technical Support', org: 'FOR YOU ALL CO., LTD.', desc: 'Handled incoming support tickets, performed PC deployments, and documented recurring issues into a growing knowledge base.' },
+      { date: '2016 — 2020', title: 'IT Support', subtitle: 'Guest Services & IT', org: 'fountaintreeresort', desc: 'Handled on-site IT support and helpdesk duties for resort operations and guest-facing systems.' },
+    ],
+    skills: [
+      { category: 'Helpdesk & Support', icon: '🎧', items: [
+        { name: 'Ticketing Systems', level: 'Advanced' },
+        { name: 'Remote Support', level: 'Advanced' },
+        { name: 'Root-Cause Analysis', level: 'Intermediate' },
+        { name: 'User Training', level: 'Advanced' },
+      ] },
+      { category: 'OS & Software', icon: '💻', items: [
+        { name: 'Windows Server/Client', level: 'Advanced' },
+        { name: 'macOS', level: 'Intermediate' },
+        { name: 'Linux (Ubuntu/CentOS)', level: 'Intermediate' },
+        { name: 'Microsoft 365', level: 'Advanced' },
+      ] },
+      { category: 'Networking & Infrastructure', icon: '🌐', items: [
+        { name: 'TCP/IP & DNS', level: 'Advanced' },
+        { name: 'VLANs & Switching', level: 'Intermediate' },
+        { name: 'Firewalls & VPN', level: 'Intermediate' },
+        { name: 'Wi-Fi Deployment', level: 'Advanced' },
+      ] },
+      { category: 'Hardware', icon: '🖥️', items: [
+        { name: 'PC/Laptop Repair', level: 'Advanced' },
+        { name: 'Printer & Peripherals', level: 'Advanced' },
+        { name: 'Server Racking', level: 'Intermediate' },
+        { name: 'Asset Management', level: 'Intermediate' },
+      ] },
+      { category: 'IT Administration', icon: '🛠️', items: [
+        { name: 'Active Directory', level: 'Advanced' },
+        { name: 'Group Policy', level: 'Intermediate' },
+        { name: 'Backup & Recovery', level: 'Intermediate' },
+        { name: 'Patch Management', level: 'Intermediate' },
+      ] },
+      { category: 'Security & Compliance', icon: '🔒', items: [
+        { name: 'Endpoint Protection', level: 'Intermediate' },
+        { name: 'Access Control', level: 'Intermediate' },
+        { name: 'Data Backup Policy', level: 'Intermediate' },
+        { name: 'Incident Response', level: 'Basic' },
+      ] },
+    ],
+    projects: [
+      {
+        title: 'Office-wide Hardware Rollout', category: 'Infrastructure', featured: true, icon: '🖥️',
+        desc: 'Planned and executed a 120-workstation hardware refresh with zero unplanned downtime, including imaging and asset tagging.',
+        tags: ['Windows 11', 'Imaging', 'Asset Tags', 'Logistics'],
+      },
+      {
+        title: 'Helpdesk Ticketing Optimization', category: 'Process', featured: true, icon: '🎫',
+        desc: 'Restructured ticket triage and SLA rules, cutting average resolution time by 35% across the support team.',
+        tags: ['Ticketing', 'SLA Design', 'Freshservice', 'Workflow'],
+      },
+      {
+        title: 'Wi-Fi Infrastructure Upgrade', category: 'Networking', featured: true, icon: '📡',
+        desc: 'Deployed enterprise-grade access points across three floors, improving coverage and eliminating dead zones.',
+        tags: ['Access Points', 'Site Survey', 'VLANs', 'Cabling'],
+      },
+      {
+        title: 'Active Directory Cleanup', category: 'Administration', featured: false, icon: '🗂️',
+        desc: 'Audited and reorganized AD OU structure and group policies, tightening access control for 300+ accounts.',
+        tags: ['Active Directory', 'Group Policy', 'Access Control'],
+      },
+      {
+        title: 'Backup & Disaster Recovery Plan', category: 'Security', featured: false, icon: '🛡️',
+        desc: 'Designed and tested a 3-2-1 backup strategy, reducing recovery time objective (RTO) from days to hours.',
+        tags: ['3-2-1 Backup', 'DR Testing', 'Veeam'],
+      },
+      {
+        title: 'Remote Support Toolkit Rollout', category: 'Tools', featured: false, icon: '🧰',
+        desc: 'Standardized remote-support tooling across the IT team, enabling faster resolution for distributed staff.',
+        tags: ['AnyDesk', 'RMM', 'Documentation'],
+      },
+    ],
+  };
+
+  const ROLES = ['IT Support', 'IT Officer', 'IT Service', 'IT Staff', 'Helpdesk', 'IT Administrator'];
+
+  /* ---------------------------- Theme toggle ---------------------------- */
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const iconSun = document.getElementById('icon-sun');
+  const iconMoon = document.getElementById('icon-moon');
+
+  function applyTheme(theme) {
+    html.classList.toggle('dark', theme === 'dark');
+    iconSun.classList.toggle('hidden', theme !== 'dark');
+    iconMoon.classList.toggle('hidden', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }
+
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+  themeToggle.addEventListener('click', () => {
+    applyTheme(html.classList.contains('dark') ? 'light' : 'dark');
+  });
+
+  /* ---------------------------- Mobile menu ---------------------------- */
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconHamburger = document.getElementById('icon-hamburger');
+  const iconClose = document.getElementById('icon-close');
+
+  function closeMobileMenu() {
+    mobileMenu.classList.add('hidden');
+    iconHamburger.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+  }
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', isOpen);
+    iconHamburger.classList.toggle('hidden', !isOpen);
+    iconClose.classList.toggle('hidden', isOpen);
+  });
+
+  document.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  /* ---------------------------- Navbar scroll style ---------------------------- */
+  const navbar = document.getElementById('navbar');
+  function onScroll() {
+    const scrolled = window.scrollY > 20;
+    navbar.classList.toggle('bg-white/80', scrolled);
+    navbar.classList.toggle('dark:bg-slate-950/80', scrolled);
+    navbar.classList.toggle('backdrop-blur', scrolled);
+    navbar.classList.toggle('shadow-sm', scrolled);
+    navbar.classList.toggle('border-slate-200', scrolled);
+    navbar.classList.toggle('dark:border-slate-800', scrolled);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------------------------- Typing / role-rotation effect ---------------------------- */
+  const typingEl = document.getElementById('typing-role');
+  let roleIndex = 0, charIndex = 0, deleting = false;
+
+  function typeLoop() {
+    const current = ROLES[roleIndex];
+    if (!deleting) {
+      charIndex++;
+      typingEl.textContent = current.slice(0, charIndex);
+      if (charIndex === current.length) {
+        deleting = true;
+        return setTimeout(typeLoop, 1400);
+      }
+    } else {
+      charIndex--;
+      typingEl.textContent = current.slice(0, charIndex);
+      if (charIndex === 0) {
+        deleting = false;
+        roleIndex = (roleIndex + 1) % ROLES.length;
+      }
+    }
+    setTimeout(typeLoop, deleting ? 40 : 90);
+  }
+  typeLoop();
+
+  /* ---------------------------- Scroll-reveal animations ---------------------------- */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+  /* ---------------------------- Data loading (Supabase with static fallback) ---------------------------- */
+  async function loadTable(tableName, fallbackKey) {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.from(tableName).select('*');
+        if (error) throw error;
+        if (data && data.length) return data;
+      } catch (err) {
+        console.warn(`Supabase fetch for "${tableName}" failed, using static data.`, err);
+      }
+    }
+    return MOCK_DATA[fallbackKey];
+  }
+
+  /* Per-entry timeline-node icons — one distinct icon per milestone, cycled if there are more items than icons */
+  const TIMELINE_ICON_SETS = {
+    education: [
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m12 3 9.5 4.5L12 12 2.5 7.5 12 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 10v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M21.5 7.5V15"/></svg>', // graduation cap
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9.75 12 4.5l9 5.25M4.5 9.75V19.5h15V9.75M8.25 19.5v-6h2.25v6M13.5 19.5v-6h2.25v6M3 19.5h18"/></svg>', // university/institution building
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>', // certificate/achievement badge
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5v12H3.75zM3.75 6.75 12 12l8.25-5.25"/></svg>', // book/open notebook
+    ],
+    experience: [
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5h16.5A1.5 1.5 0 0 1 21.75 9v9a1.5 1.5 0 0 1-1.5 1.5H3.75A1.5 1.5 0 0 1 2.25 18V9a1.5 1.5 0 0 1 1.5-1.5Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6a2.25 2.25 0 0 1 2.25-2.25h3A2.25 2.25 0 0 1 15.75 6v1.5M2.25 12.75h19.5"/></svg>', // briefcase
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75v-1.5a7.5 7.5 0 1 1 15 0v1.5M4.5 12.75a1.5 1.5 0 0 1 1.5-1.5h1.5v4.5H6a1.5 1.5 0 0 1-1.5-1.5v-1.5ZM19.5 12.75a1.5 1.5 0 0 0-1.5-1.5h-1.5v4.5H18a1.5 1.5 0 0 0 1.5-1.5v-1.5ZM7.5 15.75v1.5a3 3 0 0 0 3 3h1.5"/></svg>', // headset/support
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.5h16.5v6H3.75zM3.75 13.5h16.5v6H3.75zM6.75 7.5h.008M6.75 16.5h.008"/></svg>', // server rack
+      '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 4.5a3 3 0 0 0-4.24 4.24l-6 6a1.5 1.5 0 0 0 2.12 2.12l6-6a3 3 0 0 0 4.24-4.24l-2.12 2.12-2.12-2.12 2.12-2.12Z"/></svg>', // wrench
+    ],
+  };
+
+  const CALENDAR_ICON = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v3M17.25 3v3M3.75 8.25h16.5M5.25 5.25h13.5A1.5 1.5 0 0 1 20.25 6.75v12A1.5 1.5 0 0 1 18.75 20.25H5.25A1.5 1.5 0 0 1 3.75 18.75v-12A1.5 1.5 0 0 1 5.25 5.25Z"/></svg>';
+  const CHEVRON_ICON = '<svg class="expand-chevron w-3.5 h-3.5 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>';
+
+  // Placeholder copy previewing the expanded-detail layout — swap for real per-role duties later.
+  const PLACEHOLDER_RESPONSIBILITIES = [
+    'Placeholder responsibility — replace with a real day-to-day duty for this role.',
+    'Placeholder responsibility — replace with a key tool or system owned in this role.',
+    'Placeholder responsibility — replace with a notable achievement or project from this role.',
+  ];
+
+  function renderTimeline(items, tab) {
+    const container = document.getElementById('timeline');
+    const iconSet = TIMELINE_ICON_SETS[tab] || TIMELINE_ICON_SETS.experience;
+    const isExperience = tab === 'experience';
+    container.innerHTML = `<div class="absolute left-0 sm:left-1/2 top-0 bottom-0 w-px bg-slate-300 dark:bg-slate-700 sm:-translate-x-1/2"></div>`;
+    items.forEach((item, i) => {
+      const icon = iconSet[i % iconSet.length];
+      const isLeft = i % 2 === 0;
+      const card = document.createElement('div');
+      // Desktop uses a 3-col grid (content / icon / content): the icon lives in the
+      // fixed-width center column, so it's always centered on the container's
+      // midpoint — the same axis the vertical line is centered on — regardless of
+      // card width, side, or viewport size. Mobile keeps the icon absolutely
+      // positioned in the left gutter next to the line.
+      card.className = 'reveal relative mb-4 sm:grid sm:grid-cols-[1fr_2.5rem_1fr] sm:items-start sm:gap-6';
+      card.innerHTML = `
+        <span class="timeline-node absolute -left-10 top-0 sm:static sm:col-start-2 sm:mx-auto z-10 w-10 h-10 flex items-center justify-center rounded-full ring-4 ring-slate-50 dark:ring-slate-950 bg-accent-600 dark:bg-accent-500 text-white">
+          ${icon}
+        </span>
+        <div class="experience-card p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 ${isLeft ? 'sm:col-start-1' : 'sm:col-start-3'} shadow-sm ${isExperience ? 'cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-accent-400 dark:hover:border-accent-500' : ''}">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-600 dark:bg-accent-500 text-white text-xs font-mono font-semibold mb-3">
+            ${CALENDAR_ICON}
+            ${item.date}
+          </span>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">${item.title}</h3>
+          ${item.subtitle ? `<p class="text-sm font-semibold text-orange-500 dark:text-orange-400 mt-0.5">${item.subtitle}</p>` : ''}
+          <p class="text-sm font-semibold text-slate-700 dark:text-slate-200 mt-1 mb-3">${item.org}</p>
+          <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
+          ${isExperience ? `
+          <div class="experience-detail grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
+            <div class="overflow-hidden">
+              <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">Key Responsibilities (placeholder)</p>
+                <ul class="space-y-1.5">
+                  ${PLACEHOLDER_RESPONSIBILITIES.map(r => `<li class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex gap-2"><span class="text-accent-600 dark:text-accent-400">&bull;</span><span>${r}</span></li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <span class="expand-indicator mt-3 flex items-center justify-end gap-1 text-xs font-semibold text-accent-600 dark:text-accent-400">
+            <span class="expand-label">More</span>
+            ${CHEVRON_ICON}
+          </span>` : ''}
+        </div>`;
+      container.appendChild(card);
+      revealObserver.observe(card);
+
+      if (isExperience) {
+        const contentEl = card.querySelector('.experience-card');
+        const detailEl = card.querySelector('.experience-detail');
+        const labelEl = card.querySelector('.expand-label');
+        const chevronEl = card.querySelector('.expand-chevron');
+        contentEl.addEventListener('click', () => {
+          const isOpen = detailEl.classList.contains('grid-rows-[0fr]');
+          detailEl.classList.toggle('grid-rows-[0fr]', !isOpen);
+          detailEl.classList.toggle('grid-rows-[1fr]', isOpen);
+          labelEl.textContent = isOpen ? 'Less' : 'More';
+          chevronEl.classList.toggle('rotate-180', isOpen);
+        });
+      }
+    });
+  }
+
+  const SKILL_LEVEL_STYLES = {
+    Advanced: 'bg-emerald-500/10 text-emerald-400',
+    Intermediate: 'bg-orange-500/10 text-orange-400',
+    Basic: 'bg-slate-500/10 text-slate-400',
+  };
+  const SKILL_LEVEL_DOTS = {
+    Advanced: 'bg-emerald-400',
+    Intermediate: 'bg-orange-400',
+    Basic: 'bg-slate-400',
+  };
+
+  let skillCategories = [];
+  let activeSkillTab = 0;
+
+  function renderSkillTabs() {
+    const tabs = document.getElementById('skills-tabs');
+    tabs.innerHTML = skillCategories.map((cat, i) => `
+      <button type="button" data-skill-tab="${i}" class="skill-tab-btn px-4 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+        i === activeSkillTab
+          ? 'bg-orange-500 border-orange-500 text-white'
+          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-orange-400 dark:hover:border-orange-500'
+      }">${cat.category}</button>`).join('');
+
+    tabs.querySelectorAll('.skill-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeSkillTab = Number(btn.dataset.skillTab);
+        renderSkillTabs();
+        renderSkillGrid();
+      });
+    });
+  }
+
+  function renderSkillGrid() {
+    const grid = document.getElementById('skills-grid');
+    grid.innerHTML = '';
+    const cat = skillCategories[activeSkillTab];
+    if (!cat) return;
+    cat.items.forEach((skill) => {
+      const card = document.createElement('div');
+      card.className = 'reveal p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-accent-400 dark:hover:border-accent-500 transition-colors text-center flex flex-col items-center';
+      card.innerHTML = `
+        <div class="w-14 h-14 mb-4 rounded-full grid place-items-center text-2xl bg-slate-100 dark:bg-slate-800">${cat.icon}</div>
+        <h3 class="font-semibold text-slate-900 dark:text-white mb-3">${skill.name}</h3>
+        <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${SKILL_LEVEL_STYLES[skill.level] || SKILL_LEVEL_STYLES.Basic}">
+          <span class="w-1.5 h-1.5 rounded-full ${SKILL_LEVEL_DOTS[skill.level] || SKILL_LEVEL_DOTS.Basic}"></span>
+          ${skill.level}
+        </span>`;
+      grid.appendChild(card);
+      revealObserver.observe(card);
+    });
+  }
+
+  function renderSkills(categories) {
+    skillCategories = categories;
+    activeSkillTab = 0;
+    renderSkillTabs();
+    renderSkillGrid();
+  }
+
+  let allProjects = [];
+  let activeProjectFilter = 'All';
+
+  function renderProjectTabs() {
+    const tabs = document.getElementById('projects-tabs');
+    const categories = ['All', ...Array.from(new Set(allProjects.map((p) => p.category)))];
+    tabs.innerHTML = categories.map((cat) => {
+      const count = cat === 'All' ? allProjects.length : allProjects.filter((p) => p.category === cat).length;
+      const isActive = cat === activeProjectFilter;
+      return `
+        <button type="button" data-project-filter="${cat}" class="project-tab-btn inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+          isActive
+            ? 'bg-orange-500 border-orange-500 text-white'
+            : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-orange-400 dark:hover:border-orange-500'
+        }">
+          ${cat}
+          <span class="text-xs font-mono px-1.5 py-0.5 rounded-md ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}">${count}</span>
+        </button>`;
+    }).join('');
+
+    tabs.querySelectorAll('.project-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeProjectFilter = btn.dataset.projectFilter;
+        renderProjectTabs();
+        renderProjectGrid();
+      });
+    });
+  }
+
+  function renderProjectGrid() {
+    const grid = document.getElementById('projects-grid');
+    grid.innerHTML = '';
+    const filtered = activeProjectFilter === 'All'
+      ? allProjects
+      : allProjects.filter((p) => p.category === activeProjectFilter);
+
+    filtered.forEach((p) => {
+      const card = document.createElement('div');
+      card.className = 'reveal rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all';
+      card.innerHTML = `
+        <div class="relative h-48 flex items-center justify-center text-5xl bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950">
+          ${p.icon}
+          <span class="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white">${p.category}</span>
+        </div>
+        <div class="p-6">
+          ${p.featured ? `
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400 mb-3">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="m12 2 2.9 6.9L22 9.6l-5.5 4.9L18 22l-6-3.6L6 22l1.5-7.5L2 9.6l7.1-.7L12 2Z"/></svg>
+              Featured
+            </span>` : ''}
+          <h3 class="font-semibold text-slate-900 dark:text-white mb-2">${p.title}</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">${p.desc}</p>
+        </div>`;
+      grid.appendChild(card);
+      revealObserver.observe(card);
+    });
+  }
+
+  function renderProjects(projects) {
+    allProjects = projects;
+    activeProjectFilter = 'All';
+    renderProjectTabs();
+    renderProjectGrid();
+  }
+
+  /* ---------------------------- Journey tabs (Education / Work Experience) ---------------------------- */
+  const timelineData = { education: [], experience: [] };
+  let activeTimelineTab = 'experience';
+  const timelineTabButtons = document.querySelectorAll('.timeline-tab-btn');
+  const timelineContainer = document.getElementById('timeline');
+
+  function setActiveTimelineTab(tab) {
+    activeTimelineTab = tab;
+    timelineTabButtons.forEach((btn) => {
+      btn.classList.toggle('is-active', btn.dataset.timelineTab === tab);
+    });
+    // Fade + slide the timeline out, swap content, then fade it back in.
+    timelineContainer.classList.add('is-switching');
+    setTimeout(() => {
+      renderTimeline(timelineData[tab], tab);
+      timelineContainer.classList.remove('is-switching');
+    }, 250);
+  }
+
+  timelineTabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.timelineTab !== activeTimelineTab) {
+        setActiveTimelineTab(btn.dataset.timelineTab);
+      }
+    });
+  });
+
+  (async () => {
+    const [education, experience, skills, projects] = await Promise.all([
+      loadTable('education', 'education'),
+      loadTable('experience', 'experience'),
+      loadTable('skills', 'skills'),
+      loadTable('projects', 'projects'),
+    ]);
+    timelineData.education = education;
+    timelineData.experience = experience;
+    renderTimeline(timelineData[activeTimelineTab], activeTimelineTab);
+    renderSkills(skills);
+    renderProjects(projects);
+  })();
+
+  /* ---------------------------- Footer year ---------------------------- */
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
