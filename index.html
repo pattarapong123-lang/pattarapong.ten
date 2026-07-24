@@ -151,26 +151,29 @@
       My Portforio<span class="text-accent-600 dark:text-accent-400">.</span>
     </a>
 
-    <!-- Desktop links -->
-    <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <li><a href="#journey" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Journey</a></li>
-      <li><a href="#skills" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Skills</a></li>
-      <li><a href="#projects" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Projects</a></li>
-      <li><a href="#about" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">About</a></li>
-    </ul>
+    <!-- Right-aligned menu cluster: links + toggles grouped together at the end of the bar -->
+    <div class="flex items-center gap-8 ml-auto">
+      <!-- Desktop links -->
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <li><a href="#journey" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Journey</a></li>
+        <li><a href="#skills" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Skills</a></li>
+        <li><a href="#projects" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">Projects</a></li>
+        <li><a href="#about" class="nav-link hover:text-accent-600 dark:hover:text-accent-400 transition-colors">About</a></li>
+      </ul>
 
-    <div class="flex items-center gap-2">
-      <!-- Dark/light toggle -->
-      <button id="theme-toggle" aria-label="Toggle dark mode" class="w-10 h-10 grid place-items-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-        <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.36 6.36-1.06-1.06M6.7 6.7 5.64 5.64m12.72 0-1.06 1.06M6.7 17.3l-1.06 1.06M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg>
-        <svg id="icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
-      </button>
+      <div class="flex items-center gap-2">
+        <!-- Dark/light toggle -->
+        <button id="theme-toggle" aria-label="Toggle dark mode" class="w-10 h-10 grid place-items-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+          <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.36 6.36-1.06-1.06M6.7 6.7 5.64 5.64m12.72 0-1.06 1.06M6.7 17.3l-1.06 1.06M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg>
+          <svg id="icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
+        </button>
 
-      <!-- Mobile hamburger -->
-      <button id="menu-toggle" aria-label="Toggle menu" class="md:hidden w-10 h-10 grid place-items-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-        <svg id="icon-hamburger" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
-        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
+        <!-- Mobile hamburger -->
+        <button id="menu-toggle" aria-label="Toggle menu" class="md:hidden w-10 h-10 grid place-items-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+          <svg id="icon-hamburger" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+          <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -537,10 +540,44 @@
   </div>
 </footer>
 
+<!-- ============================= PROJECT DETAIL MODAL ============================= -->
+<div id="project-modal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+  <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" data-modal-close></div>
+  <div class="relative z-10 flex items-start sm:items-center justify-center min-h-full p-4 sm:p-6">
+    <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
+      <button type="button" data-modal-close aria-label="Close" class="absolute top-4 right-4 z-20 w-9 h-9 grid place-items-center rounded-full bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div id="project-modal-gallery" class="relative h-56 sm:h-72 bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950 flex items-center justify-center text-6xl overflow-hidden"></div>
+      <div id="project-modal-thumbs" class="hidden flex gap-2 px-6 pt-4 overflow-x-auto"></div>
+
+      <div class="p-6 sm:p-8">
+        <div class="flex items-center gap-2 mb-3">
+          <span id="project-modal-category" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white"></span>
+          <span id="project-modal-featured" class="hidden inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="m12 2 2.9 6.9L22 9.6l-5.5 4.9L18 22l-6-3.6L6 22l1.5-7.5L2 9.6l7.1-.7L12 2Z"/></svg>
+            Featured
+          </span>
+        </div>
+        <h3 id="project-modal-title" class="text-xl font-bold text-slate-900 dark:text-white mb-3"></h3>
+        <p id="project-modal-desc" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-5"></p>
+        <div id="project-modal-tags" class="flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ============================= JAVASCRIPT ============================= -->
 <script>
 (() => {
   'use strict';
+
+  /* Always land on the top of the home section on a fresh page load,
+     regardless of URL hash or the browser's scroll-position memory. */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+  window.addEventListener('load', () => window.scrollTo(0, 0));
 
   /* ---------------------------------------------------------------------
    * Supabase configuration
@@ -614,31 +651,37 @@
         title: 'Office-wide Hardware Rollout', category: 'Infrastructure', featured: true, icon: '🖥️',
         desc: 'Planned and executed a 120-workstation hardware refresh with zero unplanned downtime, including imaging and asset tagging.',
         tags: ['Windows 11', 'Imaging', 'Asset Tags', 'Logistics'],
+        images: ['./photos/s1.jpeg', './photos/s2.jpeg'],
       },
       {
         title: 'Helpdesk Ticketing Optimization', category: 'Process', featured: true, icon: '🎫',
         desc: 'Restructured ticket triage and SLA rules, cutting average resolution time by 35% across the support team.',
         tags: ['Ticketing', 'SLA Design', 'Freshservice', 'Workflow'],
+        images: ['./photos/s3.jpeg'],
       },
       {
         title: 'Wi-Fi Infrastructure Upgrade', category: 'Networking', featured: true, icon: '📡',
         desc: 'Deployed enterprise-grade access points across three floors, improving coverage and eliminating dead zones.',
         tags: ['Access Points', 'Site Survey', 'VLANs', 'Cabling'],
+        images: ['./photos/s4.jpeg', './photos/s5.jpeg', './photos/s6.jpeg'],
       },
       {
         title: 'Active Directory Cleanup', category: 'Administration', featured: false, icon: '🗂️',
         desc: 'Audited and reorganized AD OU structure and group policies, tightening access control for 300+ accounts.',
         tags: ['Active Directory', 'Group Policy', 'Access Control'],
+        images: [],
       },
       {
         title: 'Backup & Disaster Recovery Plan', category: 'Security', featured: false, icon: '🛡️',
         desc: 'Designed and tested a 3-2-1 backup strategy, reducing recovery time objective (RTO) from days to hours.',
         tags: ['3-2-1 Backup', 'DR Testing', 'Veeam'],
+        images: [],
       },
       {
         title: 'Remote Support Toolkit Rollout', category: 'Tools', featured: false, icon: '🧰',
         desc: 'Standardized remote-support tooling across the IT team, enabling faster resolution for distributed staff.',
         tags: ['AnyDesk', 'RMM', 'Documentation'],
+        images: [],
       },
     ],
   };
@@ -940,7 +983,7 @@
 
     filtered.forEach((p) => {
       const card = document.createElement('div');
-      card.className = 'reveal rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg transition-all';
+      card.className = 'reveal cursor-pointer rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg hover:border-orange-400 dark:hover:border-orange-500 transition-all';
       card.innerHTML = `
         <div class="relative h-48 flex items-center justify-center text-5xl bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950">
           ${p.icon}
@@ -954,11 +997,85 @@
             </span>` : ''}
           <h3 class="font-semibold text-slate-900 dark:text-white mb-2">${p.title}</h3>
           <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">${p.desc}</p>
+          <span class="text-xs font-semibold text-orange-500 dark:text-orange-400">View details →</span>
         </div>`;
+      card.addEventListener('click', () => openProjectModal(p));
       grid.appendChild(card);
       revealObserver.observe(card);
     });
   }
+
+  /* ---------------------------- Project detail modal ---------------------------- */
+  let modalImages = [];
+  let modalImageIndex = 0;
+
+  function renderModalGallery(project) {
+    const galleryEl = document.getElementById('project-modal-gallery');
+    const thumbsEl = document.getElementById('project-modal-thumbs');
+    if (!modalImages.length) {
+      galleryEl.innerHTML = `<span>${project.icon}</span>`;
+      thumbsEl.classList.add('hidden');
+      thumbsEl.innerHTML = '';
+      return;
+    }
+    galleryEl.innerHTML = `
+      <img src="${modalImages[modalImageIndex]}" alt="${project.title} photo ${modalImageIndex + 1} of ${modalImages.length}" class="w-full h-full object-cover" />
+      ${modalImages.length > 1 ? `
+        <button type="button" id="modal-prev" aria-label="Previous image" class="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 grid place-items-center rounded-full bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 shadow transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button type="button" id="modal-next" aria-label="Next image" class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 grid place-items-center rounded-full bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 shadow transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/></svg>
+        </button>` : ''}
+    `;
+    if (modalImages.length > 1) {
+      document.getElementById('modal-prev').addEventListener('click', () => {
+        modalImageIndex = (modalImageIndex - 1 + modalImages.length) % modalImages.length;
+        renderModalGallery(project);
+      });
+      document.getElementById('modal-next').addEventListener('click', () => {
+        modalImageIndex = (modalImageIndex + 1) % modalImages.length;
+        renderModalGallery(project);
+      });
+    }
+    thumbsEl.classList.remove('hidden');
+    thumbsEl.className = 'flex gap-2 px-6 pt-4 overflow-x-auto';
+    thumbsEl.innerHTML = modalImages.map((src, i) => `
+      <button type="button" data-thumb-index="${i}" class="modal-thumb shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${i === modalImageIndex ? 'border-orange-500' : 'border-transparent'}">
+        <img src="${src}" class="w-full h-full object-cover" alt="${project.title} thumbnail ${i + 1}" />
+      </button>`).join('');
+    thumbsEl.querySelectorAll('.modal-thumb').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        modalImageIndex = Number(btn.dataset.thumbIndex);
+        renderModalGallery(project);
+      });
+    });
+  }
+
+  function openProjectModal(project) {
+    modalImages = Array.isArray(project.images) ? project.images : [];
+    modalImageIndex = 0;
+    document.getElementById('project-modal-category').textContent = project.category;
+    document.getElementById('project-modal-featured').classList.toggle('hidden', !project.featured);
+    document.getElementById('project-modal-title').textContent = project.title;
+    document.getElementById('project-modal-desc').textContent = project.desc;
+    document.getElementById('project-modal-tags').innerHTML = (project.tags || [])
+      .map((t) => `<span class="text-xs font-mono px-2.5 py-1 rounded-md bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400">${t}</span>`)
+      .join('');
+    renderModalGallery(project);
+    document.getElementById('project-modal').classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeProjectModal() {
+    document.getElementById('project-modal').classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeProjectModal));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeProjectModal();
+  });
 
   function renderProjects(projects) {
     allProjects = projects;
