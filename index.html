@@ -623,7 +623,7 @@
       { date: '2004 — 2010', title: 'Primary School', subtitle: 'Foundational Education', org: 'Example Primary School', desc: 'Completed foundational education, building the study habits that carried through to a career in IT.' },
     ],
     experience: [
-      { date: '06/2023 — Present', title: 'IT Support', subtitle: 'Dohome public company limited', org: 'Bangna Branch | Bangprakong | Chachoengsao', desc: 'Network Infrastructure: Managed and configured network systems, L2/L3 Managed Switches, and cabling infrastructure (UTP, STP, Fiber Optic SFP SM/MM), supporting over 300 clients.', responsibilities: [
+      { date: '06/2023 — Present', title: 'IT Support', subtitle: 'Dohome public company limited', org: 'Bangna Branch | Bangprakong | Chachoengsao', logo: './photos/Logos/dohome.png', desc: 'Network Infrastructure: Managed and configured network systems, L2/L3 Managed Switches, and cabling infrastructure (UTP, STP, Fiber Optic SFP SM/MM), supporting over 300 clients.', responsibilities: [
         'Network Infrastructure: Managed and configured network systems, L2/L3 Managed Switches, and cabling infrastructure (UTP, STP, Fiber Optic SFP SM/MM), supporting over 300 clients.',
         'Wireless Network: Administered Wi-Fi networks and AC Controllers (50 APs), along with tuning 2.4GHz/5GHz signal performance.',
         'Server & Virtualization: Maintained the Server Room, UPS systems, and virtualization environments (VMware, Proxmox, ZStack).',
@@ -636,7 +636,7 @@
         'MDM (Mobile Device Management): Administered 70 handheld devices, deployed internal applications, and resolved user issues.',
         'IT Inventory & Asset Lifecycle: Developed IT inventory systems and stock cards, while managing spare parts and expired assets.',
       ] },
-      { date: '06/2021 — 06/2023', title: 'IT Officer Setup', subtitle: 'Dohome public company limited', org: 'Headquarter | Bangkok', desc: 'Deployed end-to-end IT systems for new branch openings and led infrastructure renovation projects across the Dohome branch network.', responsibilities: [
+      { date: '06/2021 — 06/2023', title: 'IT Officer Setup', subtitle: 'Dohome public company limited', org: 'Headquarter | Bangkok', logo: './photos/Logos/dohome.png', desc: 'Deployed end-to-end IT systems for new branch openings and led infrastructure renovation projects across the Dohome branch network.', responsibilities: [
         { title: 'Project Deployment', items: [
           'New Branch IT Deployment: Successfully deployed end-to-end IT systems for new branch openings, including Amata Chonburi, Surat Thani, and Buriram branches.',
           'Core Infrastructure: Installed Server Room equipment, On-Premise Servers, and connected Fiber Optic backbones.',
@@ -652,12 +652,12 @@
           'Mobile Support Team: Operated as part of a mobile support unit to resolve on-site issues, provide temporary branch coverage, and onboard/train new staff for immediate operational readiness.',
         ] },
       ] },
-      { date: '06/2019 — 06/2021', title: 'IT Service Onsite', subtitle: 'FOR YOU ALL CO., LTD.', org: 'Bo Thong | Chonburi', desc: 'Provided on-site IT support and equipment maintenance across 300+ government locations in Chonburi, Rayong, and Chachoengsao provinces.', responsibilities: [
+      { date: '06/2019 — 06/2021', title: 'IT Service Onsite', subtitle: 'FOR YOU ALL CO., LTD.', org: 'Bo Thong | Chonburi', logo: './photos/Logos/foryouall.png', desc: 'Provided on-site IT support and equipment maintenance across 300+ government locations in Chonburi, Rayong, and Chachoengsao provinces.', responsibilities: [
         'IT Hardware & Office Equipment: Installed and maintained IT hardware, computers, printers, projectors, and various office equipment.',
         'CCTV & Smart Classroom: Installed and maintained CCTV systems, smart classrooms, and computer labs.',
         'Onsite Support: Provided on-site support for government agencies managed by the company, covering over 300 locations including schools, hospitals, sub-district health promotion hospitals (RPH), sub-district administrative organizations (TAO), and municipalities across Chonburi, Rayong, and Chachoengsao provinces.',
       ] },
-      { date: '11/2018 — 03/2019', title: 'IT Support Trainee', subtitle: 'Fountaintree Resort', org: 'Pakchong | Nakhon Ratchasima', desc: 'Provided helpdesk support and maintained IT systems, CCTV, wireless network, and office equipment for resort operations.', responsibilities: [
+      { date: '11/2018 — 03/2019', title: 'IT Support Trainee', subtitle: 'Fountaintree Resort', org: 'Pakchong | Nakhon Ratchasima', logo: './photos/Logos/fountaintree.png', desc: 'Provided helpdesk support and maintained IT systems, CCTV, wireless network, and office equipment for resort operations.', responsibilities: [
         'User Support: Provided comprehensive helpdesk and day-to-day technical support for internal employees.',
         'Hardware & Software Systems: Maintained and troubleshot computer systems, including both hardware components and software applications.',
         'CCTV & Surveillance Systems: Installed and maintained indoor/outdoor security cameras, mounted cameras on internal utility poles, and managed LAN and RG6 cabling infrastructure.',
@@ -922,13 +922,17 @@
         <span class="timeline-node absolute -left-10 top-0 sm:static sm:col-start-2 sm:mx-auto z-10 w-10 h-10 flex items-center justify-center rounded-full ring-4 ring-slate-50 dark:ring-slate-950 bg-accent-600 dark:bg-accent-500 text-white">
           ${icon}
         </span>
-        <div class="experience-card p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 ${isLeft ? 'sm:col-start-1' : 'sm:col-start-3'} shadow-sm ${isExperience ? 'cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-accent-400 dark:hover:border-accent-500' : ''}">
+        <div class="experience-card relative p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 ${isLeft ? 'sm:col-start-1' : 'sm:col-start-3'} shadow-sm ${isExperience ? 'cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-accent-400 dark:hover:border-accent-500' : ''}">
+          ${item.logo ? `
+          <span class="absolute top-4 right-4 sm:top-5 sm:right-5 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 shadow-sm flex items-center justify-center overflow-hidden">
+            <img src="${item.logo}" alt="${item.subtitle || item.org} logo" class="w-full h-full object-contain p-1.5" loading="lazy" />
+          </span>` : ''}
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-600 dark:bg-accent-500 text-white text-xs font-mono font-semibold mb-3">
             ${CALENDAR_ICON}
             ${item.date}
           </span>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">${item.title}</h3>
-          ${item.subtitle ? `<p class="text-sm font-semibold text-orange-500 dark:text-orange-400 mt-0.5">${item.subtitle}</p>` : ''}
+          <h3 class="${item.logo ? 'pr-14 sm:pr-16' : ''} text-base sm:text-lg font-bold text-slate-900 dark:text-white">${item.title}</h3>
+          ${item.subtitle ? `<p class="${item.logo ? 'pr-14 sm:pr-16' : ''} text-sm font-semibold text-orange-500 dark:text-orange-400 mt-0.5">${item.subtitle}</p>` : ''}
           <p class="text-sm font-semibold text-slate-700 dark:text-slate-200 mt-1 mb-3">${item.org}</p>
           <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
           ${isExperience ? `
@@ -960,9 +964,9 @@
           chevronEl.classList.toggle('rotate-180', isOpen);
           if (isOpen) {
             contentEl.classList.remove('sm:col-start-1', 'sm:col-start-3');
-            contentEl.classList.add('sm:col-start-1', 'sm:col-span-3', 'relative', 'sm:z-20');
+            contentEl.classList.add('sm:col-start-1', 'sm:col-span-3', 'sm:z-20');
           } else {
-            contentEl.classList.remove('sm:col-span-3', 'relative', 'sm:z-20');
+            contentEl.classList.remove('sm:col-span-3', 'sm:z-20');
             contentEl.classList.add(isLeft ? 'sm:col-start-1' : 'sm:col-start-3');
           }
         });
