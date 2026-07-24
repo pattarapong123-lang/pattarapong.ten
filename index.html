@@ -544,12 +544,12 @@
 <div id="project-modal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
   <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" data-modal-close></div>
   <div class="relative z-10 flex items-start sm:items-center justify-center min-h-full p-4 sm:p-6">
-    <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
+    <div class="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
       <button type="button" data-modal-close aria-label="Close" class="absolute top-4 right-4 z-20 w-9 h-9 grid place-items-center rounded-full bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
 
-      <div id="project-modal-gallery" class="relative h-56 sm:h-72 bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950 flex items-center justify-center text-6xl overflow-hidden"></div>
+      <div id="project-modal-gallery" class="relative h-72 sm:h-[28rem] bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950 flex items-center justify-center text-6xl overflow-hidden"></div>
       <div id="project-modal-thumbs" class="hidden flex gap-2 px-6 pt-4 overflow-x-auto"></div>
 
       <div class="p-6 sm:p-8">
@@ -566,6 +566,24 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- ============================= Image lightbox (zoom & pan) ============================= -->
+<div id="image-lightbox" class="fixed inset-0 z-[70] hidden" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="absolute inset-0 bg-slate-950/90" data-lightbox-close></div>
+  <button type="button" data-lightbox-close aria-label="Close" class="absolute top-4 right-4 z-20 w-10 h-10 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+  </button>
+  <button type="button" id="lightbox-prev" aria-label="Previous image" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"/></svg>
+  </button>
+  <button type="button" id="lightbox-next" aria-label="Next image" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/></svg>
+  </button>
+  <div id="lightbox-viewport" class="relative w-full h-full overflow-hidden flex items-center justify-center select-none">
+    <img id="lightbox-img" src="" alt="" class="max-w-[92vw] max-h-[86vh] object-contain will-change-transform" draggable="false" />
+  </div>
+  <div id="lightbox-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-xs font-medium px-3 py-1.5 rounded-full bg-white/10 text-white"></div>
 </div>
 
 <!-- ============================= JAVASCRIPT ============================= -->
@@ -1019,7 +1037,7 @@
       return;
     }
     galleryEl.innerHTML = `
-      <img src="${modalImages[modalImageIndex]}" alt="${project.title} photo ${modalImageIndex + 1} of ${modalImages.length}" class="w-full h-full object-cover" />
+      <img id="modal-main-img" src="${modalImages[modalImageIndex]}" alt="${project.title} photo ${modalImageIndex + 1} of ${modalImages.length}" class="w-full h-full object-cover cursor-zoom-in" />
       ${modalImages.length > 1 ? `
         <button type="button" id="modal-prev" aria-label="Previous image" class="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 grid place-items-center rounded-full bg-white/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 shadow transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"/></svg>
@@ -1038,6 +1056,7 @@
         renderModalGallery(project);
       });
     }
+    document.getElementById('modal-main-img').addEventListener('click', () => openLightbox(project, modalImageIndex));
     thumbsEl.classList.remove('hidden');
     thumbsEl.className = 'flex gap-2 px-6 pt-4 overflow-x-auto';
     thumbsEl.innerHTML = modalImages.map((src, i) => `
@@ -1075,6 +1094,137 @@
   document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeProjectModal));
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeProjectModal();
+  });
+
+  /* ---------------------------- Image lightbox (zoom & pan) ---------------------------- */
+  let lightboxProject = null;
+  let lightboxIndex = 0;
+  let zoomScale = 1;
+  let panX = 0;
+  let panY = 0;
+  let isPanning = false;
+  let panStartX = 0;
+  let panStartY = 0;
+  const ZOOM_SCALE = 2.5;
+
+  const lightboxEl = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxViewport = document.getElementById('lightbox-viewport');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const lightboxPrevBtn = document.getElementById('lightbox-prev');
+  const lightboxNextBtn = document.getElementById('lightbox-next');
+
+  function applyLightboxTransform() {
+    lightboxImg.style.transition = isPanning ? 'none' : 'transform 150ms ease-out';
+    lightboxImg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
+    lightboxImg.style.cursor = zoomScale > 1 ? (isPanning ? 'grabbing' : 'grab') : 'zoom-in';
+  }
+
+  function clampPan() {
+    if (zoomScale <= 1) { panX = 0; panY = 0; return; }
+    const maxX = (lightboxViewport.clientWidth * (zoomScale - 1)) / 2;
+    const maxY = (lightboxViewport.clientHeight * (zoomScale - 1)) / 2;
+    panX = Math.min(maxX, Math.max(-maxX, panX));
+    panY = Math.min(maxY, Math.max(-maxY, panY));
+  }
+
+  function renderLightboxImage() {
+    const images = Array.isArray(lightboxProject.images) ? lightboxProject.images : [];
+    lightboxImg.src = images[lightboxIndex];
+    lightboxImg.alt = `${lightboxProject.title} photo ${lightboxIndex + 1} of ${images.length}`;
+    lightboxCounter.textContent = `${lightboxIndex + 1} / ${images.length}`;
+    lightboxCounter.classList.toggle('hidden', images.length <= 1);
+    lightboxPrevBtn.classList.toggle('hidden', images.length <= 1);
+    lightboxNextBtn.classList.toggle('hidden', images.length <= 1);
+    zoomScale = 1;
+    panX = 0;
+    panY = 0;
+    applyLightboxTransform();
+  }
+
+  function openLightbox(project, index) {
+    lightboxProject = project;
+    lightboxIndex = index;
+    renderLightboxImage();
+    lightboxEl.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeLightbox() {
+    lightboxEl.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function showLightboxImage(newIndex) {
+    const images = Array.isArray(lightboxProject.images) ? lightboxProject.images : [];
+    lightboxIndex = (newIndex + images.length) % images.length;
+    renderLightboxImage();
+  }
+
+  let didPan = false;
+
+  lightboxImg.addEventListener('click', (e) => {
+    if (didPan) { didPan = false; return; }
+    if (zoomScale === 1) {
+      zoomScale = ZOOM_SCALE;
+    } else {
+      zoomScale = 1;
+      panX = 0;
+      panY = 0;
+    }
+    applyLightboxTransform();
+  });
+
+  lightboxImg.addEventListener('mousedown', (e) => {
+    if (zoomScale <= 1) return;
+    isPanning = true;
+    didPan = false;
+    panStartX = e.clientX - panX;
+    panStartY = e.clientY - panY;
+    applyLightboxTransform();
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    didPan = true;
+    panX = e.clientX - panStartX;
+    panY = e.clientY - panStartY;
+    clampPan();
+    applyLightboxTransform();
+  });
+  window.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    applyLightboxTransform();
+  });
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  lightboxImg.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    if (zoomScale > 1) {
+      isPanning = true;
+      touchStartX = e.touches[0].clientX - panX;
+      touchStartY = e.touches[0].clientY - panY;
+    }
+  }, { passive: true });
+  lightboxImg.addEventListener('touchmove', (e) => {
+    if (!isPanning || e.touches.length !== 1) return;
+    panX = e.touches[0].clientX - touchStartX;
+    panY = e.touches[0].clientY - touchStartY;
+    clampPan();
+    applyLightboxTransform();
+  }, { passive: true });
+  lightboxImg.addEventListener('touchend', () => { isPanning = false; });
+
+  lightboxPrevBtn.addEventListener('click', () => showLightboxImage(lightboxIndex - 1));
+  lightboxNextBtn.addEventListener('click', () => showLightboxImage(lightboxIndex + 1));
+  document.querySelectorAll('[data-lightbox-close]').forEach((el) => el.addEventListener('click', closeLightbox));
+  document.addEventListener('keydown', (e) => {
+    if (lightboxEl.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showLightboxImage(lightboxIndex - 1);
+    if (e.key === 'ArrowRight') showLightboxImage(lightboxIndex + 1);
   });
 
   function renderProjects(projects) {
