@@ -548,8 +548,8 @@
    * live data (skills/projects/experience).
    * Until then, the site runs entirely on the static MOCK_DATA below.
    * ------------------------------------------------------------------- */
-  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const SUPABASE_URL = 'https://aftnbucohvfmhmxvsmjh.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmdG5idWNvaHZmbWhteHZzbWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzQ0NjcsImV4cCI6MjA5NDMxMDQ2N30.Iq3_Dyg4Ly3pJ6UfBY7-UM_ks-vwkUGNfNLTT3dIGs8';
   const SUPABASE_CONFIGURED = SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20;
 
   let supabase = null;
@@ -744,9 +744,9 @@
   async function loadTable(tableName, fallbackKey) {
     if (supabase) {
       try {
-        const { data, error } = await supabase.from(tableName).select('*');
+        const { data, error } = await supabase.from(tableName).select('*').order('sort_order', { ascending: true });
         if (error) throw error;
-        if (data && data.length) return data;
+        if (data && data.length) return data.map((row) => ({ ...row, desc: row.desc ?? row.description }));
       } catch (err) {
         console.warn(`Supabase fetch for "${tableName}" failed, using static data.`, err);
       }
