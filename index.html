@@ -924,15 +924,15 @@
         </span>
         <div class="experience-card relative p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 ${isLeft ? 'sm:col-start-1' : 'sm:col-start-3'} shadow-sm ${isExperience ? 'cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-accent-400 dark:hover:border-accent-500' : ''}">
           ${item.logo ? `
-          <span class="absolute top-4 right-4 sm:top-5 sm:right-5 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 shadow-sm flex items-center justify-center overflow-hidden">
-            <img src="${item.logo}" alt="${item.subtitle || item.org} logo" class="w-full h-full object-contain p-1.5" loading="lazy" />
+          <span class="absolute top-4 right-4 sm:top-5 sm:right-5 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 shadow-sm flex items-center justify-center overflow-hidden">
+            <img src="${item.logo}" alt="${item.subtitle || item.org} logo" class="w-full h-full object-cover" loading="lazy" />
           </span>` : ''}
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-600 dark:bg-accent-500 text-white text-xs font-mono font-semibold mb-3">
             ${CALENDAR_ICON}
             ${item.date}
           </span>
-          <h3 class="${item.logo ? 'pr-14 sm:pr-16' : ''} text-base sm:text-lg font-bold text-slate-900 dark:text-white">${item.title}</h3>
-          ${item.subtitle ? `<p class="${item.logo ? 'pr-14 sm:pr-16' : ''} text-sm font-semibold text-orange-500 dark:text-orange-400 mt-0.5">${item.subtitle}</p>` : ''}
+          <h3 class="${item.logo ? 'pr-20 sm:pr-24' : ''} text-base sm:text-lg font-bold text-slate-900 dark:text-white">${item.title}</h3>
+          ${item.subtitle ? `<p class="${item.logo ? 'pr-20 sm:pr-24' : ''} text-sm font-semibold text-orange-500 dark:text-orange-400 mt-0.5">${item.subtitle}</p>` : ''}
           <p class="text-sm font-semibold text-slate-700 dark:text-slate-200 mt-1 mb-3">${item.org}</p>
           <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">${item.desc}</p>
           ${isExperience ? `
