@@ -636,7 +636,22 @@
         'MDM (Mobile Device Management): Administered 70 handheld devices, deployed internal applications, and resolved user issues.',
         'IT Inventory & Asset Lifecycle: Developed IT inventory systems and stock cards, while managing spare parts and expired assets.',
       ] },
-      { date: '2021 — 2023', title: 'IT Office Setup', subtitle: 'IT Department', org: 'Dohome public company limited', desc: 'Provided first- and second-line support for 150+ end users, resolved hardware/software issues, and administered user accounts.' },
+      { date: '06/2021 — 06/2023', title: 'IT Officer Setup', subtitle: 'Dohome public company limited', org: 'Headquarter | Bangkok', desc: 'Deployed end-to-end IT systems for new branch openings and led infrastructure renovation projects across the Dohome branch network.', responsibilities: [
+        { title: 'Project Deployment', items: [
+          'New Branch IT Deployment: Successfully deployed end-to-end IT systems for new branch openings, including Amata Chonburi, Surat Thani, and Buriram branches.',
+          'Core Infrastructure: Installed Server Room equipment, On-Premise Servers, and connected Fiber Optic backbones.',
+          'Network Configuration: Configured comprehensive network systems including L3 Core Switches, L2 Access Switches, Wi-Fi systems, VLANs, Routing, DHCP Pools, and ACLs.',
+          'Cable Management: Inspected contractor cabling works covering over 10 racks per branch using standardized checklists to ensure strict quality control and compliance.',
+          'Mentorship & Knowledge Transfer: Acted as a mentor to train and transfer knowledge to on-site branch IT staff, ensuring seamless continuous operations post-project.',
+        ] },
+        { title: 'Infrastructure Renovation & Support', items: [
+          'System Renovation & Upgrade: Renovated and upgraded IT systems for branches with aging equipment, including Rangsit, Bang Bua Thong, Ubon Ratchathani, Khon Kaen, Rama 2, Bangna, and Phetkasem branches.',
+          'Network Optimization: Replaced and optimized Access Points and L2 Access Switches.',
+          'Network Resilience & Scalability: Planned network backups, port aggregation, and Switch Stacking (VSU) to enhance system stability and scalability.',
+          'Preventive Maintenance (PM): Performed routine preventive maintenance and organized cable management across server racks.',
+          'Mobile Support Team: Operated as part of a mobile support unit to resolve on-site issues, provide temporary branch coverage, and onboard/train new staff for immediate operational readiness.',
+        ] },
+      ] },
       { date: '2020 — 2021', title: 'IT Service', subtitle: 'Technical Support', org: 'FOR YOU ALL CO., LTD.', desc: 'Handled incoming support tickets, performed PC deployments, and documented recurring issues into a growing knowledge base.' },
       { date: '2016 — 2020', title: 'IT Support', subtitle: 'Guest Services & IT', org: 'fountaintreeresort', desc: 'Handled on-site IT support and helpdesk duties for resort operations and guest-facing systems.' },
     ],
@@ -855,6 +870,29 @@
     'Placeholder responsibility — replace with a notable achievement or project from this role.',
   ];
 
+  function renderResponsibilityList(items) {
+    return `<ul class="space-y-1.5 sm:columns-2 sm:gap-x-8">
+      ${items.map(r => `<li class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex gap-2 break-inside-avoid"><span class="text-accent-600 dark:text-accent-400">&bull;</span><span>${r}</span></li>`).join('')}
+    </ul>`;
+  }
+
+  // A role's `responsibilities` field is either a flat array of strings, or an
+  // array of { title, items } groups when the duties split into named categories.
+  function renderResponsibilitiesBlock(item) {
+    const data = item.responsibilities || PLACEHOLDER_RESPONSIBILITIES;
+    const isGrouped = Array.isArray(data) && data.length && typeof data[0] === 'object';
+    if (isGrouped) {
+      return data.map(group => `
+        <div class="mb-4 last:mb-0">
+          <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">${group.title}</p>
+          ${renderResponsibilityList(group.items)}
+        </div>`).join('');
+    }
+    return `
+      <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">${item.responsibilities ? 'Key Responsibilities' : 'Key Responsibilities (placeholder)'}</p>
+      ${renderResponsibilityList(data)}`;
+  }
+
   function renderTimeline(items, tab) {
     const container = document.getElementById('timeline');
     const iconSet = TIMELINE_ICON_SETS[tab] || TIMELINE_ICON_SETS.experience;
@@ -887,10 +925,7 @@
           <div class="experience-detail grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
             <div class="overflow-hidden">
               <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">${item.responsibilities ? 'Key Responsibilities' : 'Key Responsibilities (placeholder)'}</p>
-                <ul class="space-y-1.5 sm:columns-2 sm:gap-x-8">
-                  ${(item.responsibilities || PLACEHOLDER_RESPONSIBILITIES).map(r => `<li class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex gap-2 break-inside-avoid"><span class="text-accent-600 dark:text-accent-400">&bull;</span><span>${r}</span></li>`).join('')}
-                </ul>
+                ${renderResponsibilitiesBlock(item)}
               </div>
             </div>
           </div>
