@@ -52,7 +52,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
 <style>
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
   body { transition: background-color 0.3s ease, color 0.3s ease; }
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.in-view { opacity: 1; transform: translateY(0); }
@@ -124,20 +124,20 @@
     box-shadow: 0 0 18px 4px rgba(59, 130, 246, 0.5);
   }
 
-  /* Career Transition Gallery: seamless auto-scrolling + drag-to-pan horizontal marquee */
+  /* Career Transition Gallery: seamless auto-scrolling + drag-to-pan horizontal marquee
+     Uses transform (not overflow/scrollLeft) on purpose — a scroll container would clip
+     the hover-scale effect vertically too. Horizontal overflow is hidden by the parent
+     #gallery section (overflow-x-hidden) instead. */
   .marquee-wrapper {
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
     touch-action: none;
     cursor: grab;
-  }
-  .marquee-wrapper::-webkit-scrollbar {
-    display: none;
   }
   .marquee-wrapper.dragging {
     cursor: grabbing;
     user-select: none;
+  }
+  .marquee-track {
+    will-change: transform;
   }
   .marquee-fade {
     -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
@@ -270,7 +270,7 @@
 </section>
 
 <!-- ============================= CAREER TRANSITION GALLERY ============================= -->
-<section id="gallery" class="py-24 border-t border-slate-200 dark:border-slate-800 overflow-x-hidden">
+<section id="gallery" class="py-24 border-t border-slate-200 dark:border-slate-800">
   <div class="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
     <div class="reveal text-center max-w-2xl mx-auto mb-14">
       <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
@@ -1233,6 +1233,8 @@
   }
 
   // Career Transition Gallery: auto-scrolling marquee, draggable to pan left/right (no lightbox)
+  // Driven by `transform: translateX()` rather than native scroll — a scrollable container
+  // would clip the hover-scale effect on the y-axis too, not just x.
   (function initMarquee() {
     const wrapper = document.querySelector('.marquee-wrapper');
     const track = document.querySelector('.marquee-track');
@@ -1243,27 +1245,28 @@
     let isDown = false;
     let isHovering = false;
     let startX = 0;
-    let startScrollLeft = 0;
+    let startOffset = 0;
+    let offset = 0; // 0 (aligned) to -halfWidth (one full set scrolled past), then wraps
     let halfWidth = track.scrollWidth / 2;
 
     window.addEventListener('resize', () => { halfWidth = track.scrollWidth / 2; });
 
-    function wrapScroll() {
+    function wrapOffset() {
       if (halfWidth <= 0) return;
-      if (wrapper.scrollLeft >= halfWidth) wrapper.scrollLeft -= halfWidth;
-      else if (wrapper.scrollLeft < 0) wrapper.scrollLeft += halfWidth;
+      if (offset <= -halfWidth) offset += halfWidth;
+      else if (offset > 0) offset -= halfWidth;
     }
 
     wrapper.addEventListener('pointerdown', (e) => {
       isDown = true;
       wrapper.classList.add('dragging');
       startX = e.clientX;
-      startScrollLeft = wrapper.scrollLeft;
+      startOffset = offset;
       wrapper.setPointerCapture(e.pointerId);
     });
     wrapper.addEventListener('pointermove', (e) => {
       if (!isDown) return;
-      wrapper.scrollLeft = startScrollLeft - (e.clientX - startX);
+      offset = startOffset + (e.clientX - startX);
     });
     const endDrag = () => { isDown = false; wrapper.classList.remove('dragging'); };
     wrapper.addEventListener('pointerup', endDrag);
@@ -1273,8 +1276,9 @@
 
     const AUTO_SPEED = 0.6; // px per frame
     function tick() {
-      if (!isDown && !isHovering) wrapper.scrollLeft += AUTO_SPEED;
-      wrapScroll();
+      if (!isDown && !isHovering) offset -= AUTO_SPEED;
+      wrapOffset();
+      track.style.transform = `translateX(${offset}px)`;
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
