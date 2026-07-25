@@ -699,25 +699,59 @@
       ] },
     ],
     skills: [
-      { category: 'OS & Collaboration', items: [
-        { name: 'Windows Server/Client', level: 'Advanced', icon: './photos/icons/windows.png' },
-        { name: 'Linux', level: 'Intermediate', icon: './photos/icons/linux.png' },
-        { name: 'Microsoft 365', level: 'Advanced', icon: './photos/icons/ms365.png' },
+      { category: 'OS & Software', items: [
+        { name: 'Windows', level: 'Advanced', icon: './photos/icons/windows.png' },
+        { name: 'Linux', level: 'Basic', icon: './photos/icons/linux.png' },
+        { name: 'Microsoft 365', level: 'Intermediate', icon: './photos/icons/ms365.png' },
+        { name: 'Microsoft Office', level: 'Intermediate', short: 'MO' },
+        { name: 'Chrome', level: 'Advanced', short: 'CH' },
+        { name: 'Edge', level: 'Advanced', short: 'ED' },
+        { name: 'SAP', level: 'Basic', short: 'SAP' },
+        { name: 'ERP', level: 'Basic', short: 'ERP' },
+        { name: 'PDF', level: 'Advanced', short: 'PDF' },
+        { name: 'Other Software', level: 'Intermediate', short: 'ETC' },
       ] },
-      { category: 'Virtualization & Infrastructure', items: [
-        { name: 'Proxmox VE', level: 'Intermediate', icon: './photos/icons/proxmox.png' },
+      { category: 'Networking', items: [
+        { name: 'Switch L3', level: 'Intermediate', icon: './photos/icons/switch.jpg' },
+        { name: 'Switch L2', level: 'Advanced', icon: './photos/icons/switch.jpg' },
+        { name: 'Wi-Fi', level: 'Intermediate', icon: './photos/icons/wifi.png' },
+        { name: 'LAN', level: 'Advanced', short: 'LAN' },
+        { name: 'Fiber Optic', level: 'Intermediate', short: 'FO' },
+        { name: 'IP / VLAN', level: 'Intermediate', short: 'VLAN' },
+        { name: 'Firewall', level: 'Basic', short: 'FW' },
+        { name: 'Huawei', level: 'Intermediate', short: 'HW' },
+        { name: 'Cisco', level: 'Intermediate', short: 'CIS' },
+        { name: 'Ruijie', level: 'Intermediate', short: 'RJ' },
+        { name: 'H3C', level: 'Intermediate', short: 'H3C' },
+      ] },
+      { category: 'Server & Monitoring Center', items: [
+        { name: 'Proxmox', level: 'Intermediate', icon: './photos/icons/proxmox.png' },
         { name: 'VMware', level: 'Intermediate', icon: './photos/icons/vm.png' },
-        { name: 'ZStack', level: 'Intermediate', icon: './photos/icons/zstack.png' },
+        { name: 'ZStack', level: 'Basic', icon: './photos/icons/zstack.png' },
+        { name: 'NAS Storage / SMB Sharing', level: 'Intermediate', short: 'NAS' },
+        { name: 'Zabbix', level: 'Advanced', icon: './photos/icons/zabbix.png' },
+        { name: 'OCS Inventory', level: 'Intermediate', short: 'OCS' },
+        { name: 'Uptime Kuma', level: 'Advanced', short: 'UK' },
       ] },
-      { category: 'Networking & Monitoring', items: [
-        { name: 'Switching (L2/L3)', level: 'Advanced', icon: './photos/icons/switch.jpg' },
-        { name: 'Wireless Network (Wi-Fi)', level: 'Advanced', icon: './photos/icons/wifi.png' },
-        { name: 'Zabbix Monitoring', level: 'Advanced', icon: './photos/icons/zabbix.png' },
+      { category: 'Hardware', items: [
+        { name: 'Computer', level: 'Advanced', short: 'PC' },
+        { name: 'Printer', level: 'Advanced', icon: './photos/icons/printer.png' },
+        { name: 'POS', level: 'Intermediate', short: 'POS' },
+        { name: 'Thermal Printer', level: 'Intermediate', short: 'THM' },
+        { name: 'IP Phone', level: 'Intermediate', icon: './photos/icons/com.png' },
+        { name: 'Notebook', level: 'Intermediate', short: 'NB' },
+        { name: 'Sound / Amp', level: 'Basic', short: 'AMP' },
+        { name: 'Handheld', level: 'Advanced', short: 'HH' },
       ] },
-      { category: 'Hardware & Peripherals', items: [
-        { name: 'CCTV & Surveillance', level: 'Advanced', icon: './photos/icons/cctv.png' },
-        { name: 'Printers & Peripherals', level: 'Advanced', icon: './photos/icons/printer.png' },
-        { name: 'IP Phone & Communication', level: 'Intermediate', icon: './photos/icons/com.png' },
+      { category: 'CCTV', items: [
+        { name: 'IP Camera', level: 'Advanced', icon: './photos/icons/cctv.png' },
+        { name: 'Analog Camera', level: 'Advanced', short: 'ANL' },
+        { name: 'NVR', level: 'Advanced', short: 'NVR' },
+        { name: 'XVR', level: 'Advanced', short: 'XVR' },
+        { name: 'DVR', level: 'Advanced', short: 'DVR' },
+        { name: 'DSS', level: 'Basic', short: 'DSS' },
+        { name: 'LAN / PoE', level: 'Advanced', short: 'PoE' },
+        { name: 'RG Cable', level: 'Intermediate', short: 'RG' },
       ] },
     ],
     projects: [
@@ -1031,9 +1065,12 @@
     cat.items.forEach((skill) => {
       const card = document.createElement('div');
       card.className = 'reveal p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-accent-400 dark:hover:border-accent-500 transition-colors text-center flex flex-col items-center';
+      const iconHtml = skill.icon
+        ? `<img src="${skill.icon}" alt="${skill.name}" class="w-full h-full object-contain" loading="lazy" />`
+        : `<span class="text-xs font-bold tracking-wide text-slate-500 dark:text-slate-400">${skill.short || skill.name.slice(0, 3).toUpperCase()}</span>`;
       card.innerHTML = `
         <div class="w-14 h-14 mb-4 rounded-full grid place-items-center bg-slate-100 dark:bg-slate-800 overflow-hidden p-2.5">
-          <img src="${skill.icon}" alt="${skill.name}" class="w-full h-full object-contain" loading="lazy" />
+          ${iconHtml}
         </div>
         <h3 class="font-semibold text-slate-900 dark:text-white mb-3">${skill.name}</h3>
         <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${SKILL_LEVEL_STYLES[skill.level] || SKILL_LEVEL_STYLES.Basic}">
