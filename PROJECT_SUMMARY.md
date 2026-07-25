@@ -10,14 +10,14 @@
   - `D:\Project_port\assets\Pattarapong_Tensuna_CV.pdf.pdf` — ไฟล์ CV จริงของผู้ใช้ (ปุ่ม Download CV ลิงก์ไปที่นี่)
   - `D:\Project_port\photos\p1.png` — รูปโปรไฟล์ hero section (วงกลม)
   - `D:\Project_port\photos\a1.jpg` — รูปโปรไฟล์เต็มตัวที่ใช้ใน About Me section
-  - `D:\Project_port\photos\s1.jpeg` – `s6.jpeg` — รูปภาพสภาพแวดล้อมงาน/โครงสร้างพื้นฐาน ใช้ใน Career Transition Gallery (คลิกดูเต็มจอได้) และเป็น placeholder ใน Projects modal gallery (3 จาก 6 โปรเจกต์)
+  - `D:\Project_port\photos\Gallery\s1.jpg` – `s11.jpg` — รูปภาพสภาพแวดล้อมงาน/โครงสร้างพื้นฐานจริง (11 รูป) ใช้ใน Career Transition Gallery (ลากดูซ้าย-ขวาได้ ไม่มี lightbox แล้ว) และเป็น placeholder ใน Projects modal gallery (3 จาก 6 โปรเจกต์, กดดูเต็มจอได้ผ่าน lightbox ในส่วนนั้น) — ไฟล์เดิม `photos\s1.jpeg`–`s6.jpeg` ถูกลบและย้ายไปที่โฟลเดอร์นี้แล้ว
   - `D:\Project_port\photos\Logos\dohome.png`, `foryouall.png`, `fountaintree.png` — โลโก้บริษัท/สถานที่ทำงานจริง แสดงเป็นวงกลมมุมขวาบนของการ์ดใน Work Experience timeline
-  - ปัจจุบันมีรูปทั้งหมด ~13 รูปใน `photos/` (รวมโฟลเดอร์ `Logos/`)
+  - ปัจจุบันมีรูปทั้งหมด ~18 รูปใน `photos/` (รวมโฟลเดอร์ `Gallery/` 11 รูป และ `Logos/`)
 
 ## ลำดับ Section บนหน้าเว็บ (บนลงล่าง)
 1. **Navigation** — fixed navbar, smooth scroll, dark/light toggle (persist ผ่าน localStorage), hamburger menu บนมือถือ. เมนู Journey / Skills / Projects / About และปุ่ม theme toggle จัดกลุ่มชิดขวาสุดของ navbar
 2. **Hero (`#home`)** — 2 คอลัมน์: ซ้ายเป็นชื่อตัวพิมพ์ใหญ่, "Hi, my name is" + typing effect หมุนตำแหน่งงาน (สีส้ม), badge "Available for Work" (สีเขียว emerald), ปุ่ม "My Projects" (สีส้ม, ลิงก์ `#projects`) + Download CV, social links (GitHub/LinkedIn/Email — ยังเป็น placeholder URL); ขวาเป็นรูปโปรไฟล์วงกลมพร้อม glow animation แบบ breathing สีฟ้า (blue)
-3. **Career Transition Gallery (`#gallery`)** — marquee เลื่อนภาพแนวนอนแบบ infinite loop หยุดเมื่อ hover **รูปทุกใบกดดูแบบเต็มจอได้แล้ว** (เปิด lightbox เดียวกับที่ใช้ใน Projects modal, ดูหัวข้อ "Image Lightbox" ด้านล่าง)
+3. **Career Transition Gallery (`#gallery`)** — marquee เลื่อนภาพแนวนอนแบบ infinite loop อัตโนมัติ (JS-driven ผ่าน `scrollLeft`, ไม่ใช้ CSS animation แล้ว), หยุดเมื่อ hover, **ลากด้วยเมาส์/นิ้ว (drag-to-pan) เพื่อเลื่อนซ้าย-ขวาเองได้** — **ไม่มีฟีเจอร์กดดูเต็มจอ (lightbox) แล้ว ตามคำขอผู้ใช้** (ถูกถอดออก, รูปในส่วนนี้ไม่เชื่อมกับ Image Lightbox อีกต่อไป — lightbox ยังใช้ในส่วน Projects modal เท่านั้น) รูปทั้งหมด 11 รูปอยู่ที่ `photos/Gallery/s1.jpg` – `s11.jpg`
 4. **My Journey (`#journey`)** — timeline แบบ tab สลับ Education/Work Experience, default tab = Work Experience:
    - **ข้อมูลเป็นของจริงทั้งหมดแล้ว ทั้ง Education และ Work Experience** (ไม่ใช่ mock/placeholder อีกต่อไป — ดูรายละเอียดด้านล่าง)
    - Timeline node (วงกลมไอคอนกลาง) สีฟ้า (accent-600/500), ไอคอนขนาด `w-4 h-4`
@@ -48,11 +48,12 @@
 7. **About Me (`#about`)** — bio + "Personal Details" (ข้อมูลส่วนตัวส่วนใหญ่ยังเป็น mock) + รูปโปรไฟล์เต็มตัว `photos/a1.jpg`
 8. **Footer** — ลิงก์ด่วน (Skills / Projects / About), social, ปีลิขสิทธิ์อัตโนมัติ
 
-## Image Lightbox (ใช้ร่วมกันทั้ง Projects modal และ Career Transition Gallery)
-- คลิกรูปใดก็ได้ (การ์ดโปรเจกต์เปิด modal แล้วคลิกรูป main gallery, หรือคลิกรูปใน marquee โดยตรง) → เปิด full-screen lightbox (`#image-lightbox`, z-[70])
+## Image Lightbox (ใช้เฉพาะ Projects modal แล้ว — Career Transition Gallery ไม่ใช้แล้ว)
+- คลิกรูปใน Projects modal (main gallery) → เปิด full-screen lightbox (`#image-lightbox`, z-[70])
 - **ไม่มีฟีเจอร์ซูม/ลาก** (เคยทำไว้แล้วถอดออกตามคำขอผู้ใช้ — อย่าเพิ่มกลับมาโดยไม่ถาม)
 - เลื่อนดูรูปถัดไป/ก่อนหน้าทำได้หลายทาง: **คลิกฝั่งซ้าย/ขวาของรูป**, ปุ่มลูกศร prev/next, **swipe บนมือถือ**, คีย์บอร์ด ← / → , Escape ปิด
-- ใช้ตัวแปร global `lightboxProject`/`lightboxIndex` และฟังก์ชัน `openLightbox(project, index)` — รับ object ใดๆ ที่มี `{title, images: []}` ไม่จำเป็นต้องเป็น project จริงจาก DB (Career Gallery ใช้ pseudo-object `careerGalleryProject` ที่ประกอบจาก `s1–s6.jpeg`)
+- ใช้ตัวแปร global `lightboxProject`/`lightboxIndex` และฟังก์ชัน `openLightbox(project, index)` — รับ object ใดๆ ที่มี `{title, images: []}` ไม่จำเป็นต้องเป็น project จริงจาก DB
+- **Career Transition Gallery ไม่เชื่อมกับ lightbox นี้แล้ว** (ถอดออกตามคำขอผู้ใช้ 2026-07-25) — ตัว pseudo-object `careerGalleryProject` และ listener ที่เคยเปิด lightbox จากรูปใน marquee ถูกลบทิ้งไปแล้ว แทนที่ด้วยฟีเจอร์ drag-to-pan ในตัว marquee เอง (ดูหัวข้อ Career Transition Gallery ด้านบน) — **ถ้าจะทำ lightbox กลับมาที่ gallery ต้องถามผู้ใช้ก่อน**
 
 ## หน้าเว็บโหลดครั้งแรก
 - บังคับ scroll ไปบนสุด (`window.scrollTo(0,0)` + `history.scrollRestoration = 'manual'`) ทุกครั้งที่โหลดหน้าใหม่

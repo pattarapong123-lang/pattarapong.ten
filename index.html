@@ -124,16 +124,20 @@
     box-shadow: 0 0 18px 4px rgba(59, 130, 246, 0.5);
   }
 
-  /* Career Transition Gallery: seamless infinite horizontal marquee */
-  .marquee-track {
-    animation: marqueeScroll 32s linear infinite;
+  /* Career Transition Gallery: seamless auto-scrolling + drag-to-pan horizontal marquee */
+  .marquee-wrapper {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: none;
+    cursor: grab;
   }
-  .marquee-wrapper:hover .marquee-track {
-    animation-play-state: paused;
+  .marquee-wrapper::-webkit-scrollbar {
+    display: none;
   }
-  @keyframes marqueeScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); } /* exactly one (of two duplicated) sets wide, so the loop resets unnoticed */
+  .marquee-wrapper.dragging {
+    cursor: grabbing;
+    user-select: none;
   }
   .marquee-fade {
     -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
@@ -282,71 +286,71 @@
     <div class="marquee-track flex gap-6 w-max">
       <!-- First set of gallery images -->
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s1.jpg" alt="Career transition environment 1" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="0" />
+        <img src="./photos/Gallery/s1.jpg" alt="Career transition environment 1" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s2.jpg" alt="Career transition environment 2" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="1" />
+        <img src="./photos/Gallery/s2.jpg" alt="Career transition environment 2" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s3.jpg" alt="Career transition environment 3" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="2" />
+        <img src="./photos/Gallery/s3.jpg" alt="Career transition environment 3" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s4.jpg" alt="Career transition environment 4" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="3" />
+        <img src="./photos/Gallery/s4.jpg" alt="Career transition environment 4" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s5.jpg" alt="Career transition environment 5" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="4" />
+        <img src="./photos/Gallery/s5.jpg" alt="Career transition environment 5" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s6.jpg" alt="Career transition environment 6" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="5" />
+        <img src="./photos/Gallery/s6.jpg" alt="Career transition environment 6" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s7.jpg" alt="Career transition environment 7" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="6" />
+        <img src="./photos/Gallery/s7.jpg" alt="Career transition environment 7" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s8.jpg" alt="Career transition environment 8" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="7" />
+        <img src="./photos/Gallery/s8.jpg" alt="Career transition environment 8" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s9.jpg" alt="Career transition environment 9" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="8" />
+        <img src="./photos/Gallery/s9.jpg" alt="Career transition environment 9" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s10.jpg" alt="Career transition environment 10" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="9" />
+        <img src="./photos/Gallery/s10.jpg" alt="Career transition environment 10" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10">
-        <img src="./photos/Gallery/s11.jpg" alt="Career transition environment 11" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="10" />
+        <img src="./photos/Gallery/s11.jpg" alt="Career transition environment 11" class="w-full h-full object-cover" loading="lazy" />
       </div>
-      <!-- Duplicate set — makes the loop seamless (track scrolls exactly one set-width, -50%, then resets unnoticed) -->
+      <!-- Duplicate set — lets the auto-scroll/drag wrap seamlessly once past one set-width -->
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s1.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="0" />
-      </div>
-      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s2.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="1" />
+        <img src="./photos/Gallery/s1.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s3.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="2" />
+        <img src="./photos/Gallery/s2.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s4.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="3" />
+        <img src="./photos/Gallery/s3.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s5.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="4" />
+        <img src="./photos/Gallery/s4.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s6.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="5" />
+        <img src="./photos/Gallery/s5.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s7.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="6" />
+        <img src="./photos/Gallery/s6.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s8.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="7" />
+        <img src="./photos/Gallery/s7.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s9.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="8" />
+        <img src="./photos/Gallery/s8.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s10.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="9" />
+        <img src="./photos/Gallery/s9.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
-        <img src="./photos/Gallery/s11.jpg" alt="" class="w-full h-full object-cover cursor-pointer" loading="lazy" data-gallery-index="10" />
+        <img src="./photos/Gallery/s10.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="w-72 sm:w-80 h-48 sm:h-56 shrink-0 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-accent-500/60 dark:border-accent-400/50 shadow-sm relative transition-transform duration-300 ease-out hover:scale-150 hover:z-10" aria-hidden="true">
+        <img src="./photos/Gallery/s11.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
       </div>
     </div>
   </div>
@@ -1228,13 +1232,53 @@
     document.body.classList.remove('overflow-hidden');
   }
 
-  const careerGalleryProject = {
-    title: 'Career Transition Gallery',
-    images: ['./photos/Gallery/s1.jpg', './photos/Gallery/s2.jpg', './photos/Gallery/s3.jpg', './photos/Gallery/s4.jpg', './photos/Gallery/s5.jpg', './photos/Gallery/s6.jpg', './photos/Gallery/s7.jpg', './photos/Gallery/s8.jpg', './photos/Gallery/s9.jpg', './photos/Gallery/s10.jpg', './photos/Gallery/s11.jpg'],
-  };
-  document.querySelectorAll('[data-gallery-index]').forEach((img) => {
-    img.addEventListener('click', () => openLightbox(careerGalleryProject, Number(img.dataset.galleryIndex)));
-  });
+  // Career Transition Gallery: auto-scrolling marquee, draggable to pan left/right (no lightbox)
+  (function initMarquee() {
+    const wrapper = document.querySelector('.marquee-wrapper');
+    const track = document.querySelector('.marquee-track');
+    if (!wrapper || !track) return;
+
+    track.querySelectorAll('img').forEach((img) => { img.draggable = false; });
+
+    let isDown = false;
+    let isHovering = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let halfWidth = track.scrollWidth / 2;
+
+    window.addEventListener('resize', () => { halfWidth = track.scrollWidth / 2; });
+
+    function wrapScroll() {
+      if (halfWidth <= 0) return;
+      if (wrapper.scrollLeft >= halfWidth) wrapper.scrollLeft -= halfWidth;
+      else if (wrapper.scrollLeft < 0) wrapper.scrollLeft += halfWidth;
+    }
+
+    wrapper.addEventListener('pointerdown', (e) => {
+      isDown = true;
+      wrapper.classList.add('dragging');
+      startX = e.clientX;
+      startScrollLeft = wrapper.scrollLeft;
+      wrapper.setPointerCapture(e.pointerId);
+    });
+    wrapper.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      wrapper.scrollLeft = startScrollLeft - (e.clientX - startX);
+    });
+    const endDrag = () => { isDown = false; wrapper.classList.remove('dragging'); };
+    wrapper.addEventListener('pointerup', endDrag);
+    wrapper.addEventListener('pointercancel', endDrag);
+    wrapper.addEventListener('pointerenter', () => { isHovering = true; });
+    wrapper.addEventListener('pointerleave', () => { isHovering = false; endDrag(); });
+
+    const AUTO_SPEED = 0.6; // px per frame
+    function tick() {
+      if (!isDown && !isHovering) wrapper.scrollLeft += AUTO_SPEED;
+      wrapScroll();
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
 
   function showLightboxImage(newIndex) {
     const images = Array.isArray(lightboxProject.images) ? lightboxProject.images : [];
