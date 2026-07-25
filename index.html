@@ -699,41 +699,25 @@
       ] },
     ],
     skills: [
-      { category: 'Helpdesk & Support', icon: '🎧', items: [
-        { name: 'Ticketing Systems', level: 'Advanced' },
-        { name: 'Remote Support', level: 'Advanced' },
-        { name: 'Root-Cause Analysis', level: 'Intermediate' },
-        { name: 'User Training', level: 'Advanced' },
+      { category: 'OS & Collaboration', items: [
+        { name: 'Windows Server/Client', level: 'Advanced', icon: './photos/icons/windows.png' },
+        { name: 'Linux', level: 'Intermediate', icon: './photos/icons/linux.png' },
+        { name: 'Microsoft 365', level: 'Advanced', icon: './photos/icons/ms365.png' },
       ] },
-      { category: 'OS & Software', icon: '💻', items: [
-        { name: 'Windows Server/Client', level: 'Advanced' },
-        { name: 'macOS', level: 'Intermediate' },
-        { name: 'Linux (Ubuntu/CentOS)', level: 'Intermediate' },
-        { name: 'Microsoft 365', level: 'Advanced' },
+      { category: 'Virtualization & Infrastructure', items: [
+        { name: 'Proxmox VE', level: 'Intermediate', icon: './photos/icons/proxmox.png' },
+        { name: 'VMware', level: 'Intermediate', icon: './photos/icons/vm.png' },
+        { name: 'ZStack', level: 'Intermediate', icon: './photos/icons/zstack.png' },
       ] },
-      { category: 'Networking & Infrastructure', icon: '🌐', items: [
-        { name: 'TCP/IP & DNS', level: 'Advanced' },
-        { name: 'VLANs & Switching', level: 'Intermediate' },
-        { name: 'Firewalls & VPN', level: 'Intermediate' },
-        { name: 'Wi-Fi Deployment', level: 'Advanced' },
+      { category: 'Networking & Monitoring', items: [
+        { name: 'Switching (L2/L3)', level: 'Advanced', icon: './photos/icons/switch.jpg' },
+        { name: 'Wireless Network (Wi-Fi)', level: 'Advanced', icon: './photos/icons/wifi.png' },
+        { name: 'Zabbix Monitoring', level: 'Advanced', icon: './photos/icons/zabbix.png' },
       ] },
-      { category: 'Hardware', icon: '🖥️', items: [
-        { name: 'PC/Laptop Repair', level: 'Advanced' },
-        { name: 'Printer & Peripherals', level: 'Advanced' },
-        { name: 'Server Racking', level: 'Intermediate' },
-        { name: 'Asset Management', level: 'Intermediate' },
-      ] },
-      { category: 'IT Administration', icon: '🛠️', items: [
-        { name: 'Active Directory', level: 'Advanced' },
-        { name: 'Group Policy', level: 'Intermediate' },
-        { name: 'Backup & Recovery', level: 'Intermediate' },
-        { name: 'Patch Management', level: 'Intermediate' },
-      ] },
-      { category: 'Security & Compliance', icon: '🔒', items: [
-        { name: 'Endpoint Protection', level: 'Intermediate' },
-        { name: 'Access Control', level: 'Intermediate' },
-        { name: 'Data Backup Policy', level: 'Intermediate' },
-        { name: 'Incident Response', level: 'Basic' },
+      { category: 'Hardware & Peripherals', items: [
+        { name: 'CCTV & Surveillance', level: 'Advanced', icon: './photos/icons/cctv.png' },
+        { name: 'Printers & Peripherals', level: 'Advanced', icon: './photos/icons/printer.png' },
+        { name: 'IP Phone & Communication', level: 'Intermediate', icon: './photos/icons/com.png' },
       ] },
     ],
     projects: [
@@ -1048,7 +1032,9 @@
       const card = document.createElement('div');
       card.className = 'reveal p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-accent-400 dark:hover:border-accent-500 transition-colors text-center flex flex-col items-center';
       card.innerHTML = `
-        <div class="w-14 h-14 mb-4 rounded-full grid place-items-center text-2xl bg-slate-100 dark:bg-slate-800">${cat.icon}</div>
+        <div class="w-14 h-14 mb-4 rounded-full grid place-items-center bg-slate-100 dark:bg-slate-800 overflow-hidden p-2.5">
+          <img src="${skill.icon}" alt="${skill.name}" class="w-full h-full object-contain" loading="lazy" />
+        </div>
         <h3 class="font-semibold text-slate-900 dark:text-white mb-3">${skill.name}</h3>
         <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${SKILL_LEVEL_STYLES[skill.level] || SKILL_LEVEL_STYLES.Basic}">
           <span class="w-1.5 h-1.5 rounded-full ${SKILL_LEVEL_DOTS[skill.level] || SKILL_LEVEL_DOTS.Basic}"></span>
