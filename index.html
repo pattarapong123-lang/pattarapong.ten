@@ -1272,6 +1272,13 @@
     let offset = 0; // 0 (aligned) to -halfWidth (one full set scrolled past), then wraps
     let halfWidth = track.scrollWidth / 2;
 
+    // Momentum/inertia: track recent pointer velocity while dragging, then let it
+    // glide and decay after release instead of snapping straight back to AUTO_SPEED.
+    let lastX = 0;
+    let lastTime = 0;
+    let velocity = 0; // px per frame, signed
+    let momentum = 0;
+
     window.addEventListener('resize', () => { halfWidth = track.scrollWidth / 2; });
 
     function wrapOffset() {
@@ -1282,24 +1289,52 @@
 
     wrapper.addEventListener('pointerdown', (e) => {
       isDown = true;
+      momentum = 0;
       wrapper.classList.add('dragging');
       startX = e.clientX;
       startOffset = offset;
+      lastX = e.clientX;
+      lastTime = performance.now();
+      velocity = 0;
       wrapper.setPointerCapture(e.pointerId);
     });
     wrapper.addEventListener('pointermove', (e) => {
       if (!isDown) return;
       offset = startOffset + (e.clientX - startX);
+      const now = performance.now();
+      const dt = now - lastTime;
+      if (dt > 0) {
+        // px/frame at ~60fps, smoothed against the previous sample
+        velocity = velocity * 0.7 + ((e.clientX - lastX) / dt) * 16.67 * 0.3;
+      }
+      lastX = e.clientX;
+      lastTime = now;
     });
-    const endDrag = () => { isDown = false; wrapper.classList.remove('dragging'); };
+    const endDrag = () => {
+      if (isDown) {
+        const MAX_MOMENTUM = 60; // px/frame cap so a wild flick can't send it flying
+        momentum = Math.max(-MAX_MOMENTUM, Math.min(MAX_MOMENTUM, velocity));
+      }
+      isDown = false;
+      wrapper.classList.remove('dragging');
+    };
     wrapper.addEventListener('pointerup', endDrag);
     wrapper.addEventListener('pointercancel', endDrag);
     wrapper.addEventListener('pointerenter', () => { isHovering = true; });
     wrapper.addEventListener('pointerleave', () => { isHovering = false; endDrag(); });
 
-    const AUTO_SPEED = 0.6; // px per frame
+    const AUTO_SPEED = 0.6; // px per frame, steady-state auto-scroll
+    const FRICTION = 0.95; // per-frame decay applied to momentum after a flick
     function tick() {
-      if (!isDown && !isHovering) offset -= AUTO_SPEED;
+      if (isDown) {
+        // offset already driven by pointermove
+      } else if (Math.abs(momentum) > AUTO_SPEED) {
+        offset += momentum;
+        momentum *= FRICTION;
+      } else if (!isHovering) {
+        momentum = 0;
+        offset -= AUTO_SPEED;
+      }
       wrapOffset();
       track.style.transform = `translateX(${offset}px)`;
       requestAnimationFrame(tick);
