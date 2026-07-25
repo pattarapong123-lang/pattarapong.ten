@@ -12,7 +12,8 @@
   - `D:\Project_port\photos\a1.jpg` — รูปโปรไฟล์เต็มตัวที่ใช้ใน About Me section
   - `D:\Project_port\photos\Gallery\s1.jpg` – `s11.jpg` — รูปภาพสภาพแวดล้อมงาน/โครงสร้างพื้นฐานจริง (11 รูป) ใช้ใน Career Transition Gallery (ลากดูซ้าย-ขวาได้ ไม่มี lightbox แล้ว) และเป็น placeholder ใน Projects modal gallery (3 จาก 6 โปรเจกต์, กดดูเต็มจอได้ผ่าน lightbox ในส่วนนั้น) — ไฟล์เดิม `photos\s1.jpeg`–`s6.jpeg` ถูกลบและย้ายไปที่โฟลเดอร์นี้แล้ว
   - `D:\Project_port\photos\Logos\dohome.png`, `foryouall.png`, `fountaintree.png` — โลโก้บริษัท/สถานที่ทำงานจริง แสดงเป็นวงกลมมุมขวาบนของการ์ดใน Work Experience timeline
-  - ปัจจุบันมีรูปทั้งหมด ~18 รูปใน `photos/` (รวมโฟลเดอร์ `Gallery/` 11 รูป และ `Logos/`)
+  - `D:\Project_port\photos\icons\*.png` (+ `switch.jpg`) — ไอคอนทักษะจริง 12 ไฟล์ (cctv, com, linux, ms365, printer, proxmox, switch, vm, wifi, windows, zabbix, zstack) ใช้ใน Skills section (ไอคอนต่อ item ไม่ใช่ต่อหมวดหมู่)
+  - ปัจจุบันมีรูปทั้งหมด ~30 รูปใน `photos/` (รวมโฟลเดอร์ `Gallery/` 11 รูป, `Logos/` 3 รูป, `icons/` 12 รูป)
 
 ## ลำดับ Section บนหน้าเว็บ (บนลงล่าง)
 1. **Navigation** — fixed navbar, smooth scroll, dark/light toggle (persist ผ่าน localStorage), hamburger menu บนมือถือ. เมนู Journey / Skills / Projects / About และปุ่ม theme toggle จัดกลุ่มชิดขวาสุดของ navbar
@@ -39,7 +40,7 @@
    3. **2007 — 2009**: Middle School, General Education @ Kraipakdee Wittayakom School | Sisaket — GPA 3.30
    - (Primary School entry เดิมถูกลบออกตามคำขอผู้ใช้ เหลือ 3 รายการ)
 
-5. **Skills (`#skills`)** — filter tabs ตามหมวด (Helpdesk & Support / OS & Software / Networking & Infrastructure / Hardware / IT Administration / Security & Compliance), active tab สีส้ม, badge ระดับความชำนาญ (Advanced=เขียว, Intermediate=ส้ม, Basic=เทา) — **ยังเป็น mock data**
+5. **Skills (`#skills`)** — filter tabs ตามหมวด, active tab สีส้ม, badge ระดับความชำนาญ (Advanced=เขียว, Intermediate=ส้ม, Basic=เทา) — **ข้อมูลจริงแล้ว** (4 หมวด/12 ทักษะ, อัปเดต 2026-07-25): **OS & Collaboration** (Windows Server/Client, Linux, Microsoft 365), **Virtualization & Infrastructure** (Proxmox VE, VMware, ZStack), **Networking & Monitoring** (Switching L2/L3, Wireless Network Wi-Fi, Zabbix Monitoring), **Hardware & Peripherals** (CCTV & Surveillance, Printers & Peripherals, IP Phone & Communication) — แต่ละ item มีไอคอนรูปจริงเป็นของตัวเอง (ไม่ใช่อีโมจิต่อหมวดแบบเดิมแล้ว) จาก `photos/icons/*.png` (และ `switch.jpg`)
 6. **Projects (`#projects`)** — filter tabs พร้อมตัวนับ (All / Infrastructure / Process / Networking / Administration / Security / Tools)
    - การ์ดโปรเจกต์: cover เป็น placeholder icon (emoji), badge หมวดหมู่, badge "Featured" ถ้ามี, title, description (ไม่มี tag pill บนการ์ด)
    - กดการ์ดเปิด **modal รายละเอียด** ที่ขยายกว้างขึ้นแล้ว (`max-w-4xl`, gallery สูง `h-72 sm:h-[28rem]`) แสดงรูปภาพแกลเลอรี + thumbnail, category, badge Featured, title, description เต็ม, tag pill ทั้งหมด
@@ -74,7 +75,7 @@
   - `education` — id, sort_order, date, title, subtitle, org, description, created_at (3 แถว, ข้อมูลจริงแล้ว)
   - `experience` — เหมือน education **บวก 2 คอลัมน์ใหม่**: `responsibilities` (jsonb — flat array ของ string หรือ array ของ `{title, items}` สำหรับงานที่แบ่งหมวด), `logo` (text — path ไปยังรูปโลโก้ เช่น `./photos/Logos/dohome.png`) (4 แถว, ข้อมูลจริงแล้ว)
   - `projects` — id, sort_order, title, category, featured, icon, description, tags (jsonb), images (jsonb), created_at
-  - `skills` — id, sort_order, category, icon, items (jsonb: `[{name, level}]`), created_at — ยังเป็น mock data
+  - `skills` — id, sort_order, category, icon (คอลัมน์นี้ไม่ใช้แล้ว, เป็น null หมด), items (jsonb: `[{name, level, icon}]` — **icon อยู่ระดับ item แล้ว ไม่ใช่ระดับ category**), created_at — ข้อมูลจริงแล้ว (4 แถว)
 - โค้ด `loadTable()` ดึงข้อมูลเรียงตาม `sort_order`, map `description` → `desc`, fallback ไปใช้ `MOCK_DATA` ในไฟล์ถ้า fetch ล้มเหลวหรือตารางว่าง (MOCK_DATA ของ education/experience อัปเดตให้ตรงกับ DB จริงแล้วเช่นกัน เพื่อให้ fallback ถูกต้องด้วย)
 - ฟังก์ชัน render responsibilities อยู่ที่ `renderResponsibilitiesBlock(item)` / `renderResponsibilityList(items)` ใน `<script>` — ตรวจชนิดข้อมูลอัตโนมัติ (`typeof data[0] === 'object'` → grouped, else flat)
 
@@ -85,7 +86,7 @@
 ## สิ่งที่ยังเป็น Placeholder / ควรแก้ก่อน publish จริง
 - Social links (GitHub, LinkedIn) ยังเป็น URL ตัวอย่าง
 - Personal Details ใน About Me ส่วนใหญ่ยังเป็น mock data (Full Name และ Email เป็นของจริงอยู่แล้ว)
-- **Skills และ Projects ในฐานข้อมูล Supabase ยังเป็น mock/ตัวอย่าง** ไม่ใช่ของจริงของผู้ใช้ (ต่างจาก Education/Experience ที่เป็นข้อมูลจริงแล้ว)
+- **Projects ในฐานข้อมูล Supabase ยังเป็น mock/ตัวอย่าง** ไม่ใช่ของจริงของผู้ใช้ (Education/Experience/Skills เป็นข้อมูลจริงแล้วทั้งหมด)
 - Projects modal gallery: 3 จาก 6 โปรเจกต์ยังไม่มีรูปจริง (ใช้ placeholder จาก photos/s*.jpeg ซ้ำกัน หรือว่างเปล่า)
 - ปุ่ม Download CV ลิงก์ไปไฟล์จริงแล้ว (`assets/Pattarapong_Tensuna_CV.pdf.pdf`)
 
