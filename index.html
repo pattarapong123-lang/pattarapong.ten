@@ -143,6 +143,16 @@
     -webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
   }
+
+  /* Skills grid: on mobile, swipeable pages of 4 items (scroll-snap); .skill-page
+     becomes `display: contents` at sm+ so it drops out and items join the normal grid. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 </style>
 </head>
 
@@ -428,7 +438,7 @@
 
     <div id="skills-tabs" class="reveal flex flex-wrap justify-center gap-2.5 mb-12"></div>
 
-    <div id="skills-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-2 gap-y-8"></div>
+    <div id="skills-grid" class="no-scrollbar flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:snap-none md:grid-cols-4 lg:grid-cols-6 sm:gap-x-2 sm:gap-y-8"></div>
   </div>
 </section>
 
@@ -793,6 +803,7 @@
         { name: 'IT Asset Management', level: 'Advanced', short: 'AST' },
         { name: 'Stock Card', level: 'Intermediate', short: 'STK' },
         { name: 'Device Equipment', level: 'Intermediate', short: 'EQP' },
+        { name: 'Expired Asset', level: 'Intermediate', short: 'EXP' },
       ] },
     ],
     projects: [
@@ -1098,29 +1109,44 @@
     });
   }
 
+  function buildSkillCard(skill) {
+    const card = document.createElement('div');
+    card.className = 'reveal p-4 text-center flex flex-col items-center transition-transform duration-300 ease-out hover:-translate-y-1';
+    const iconHtml = skill.icon
+      ? `<img src="${skill.icon}" alt="${skill.name}" class="w-full h-full object-contain" loading="lazy" />`
+      : `<span class="text-xs font-bold tracking-wide text-slate-500 dark:text-slate-400">${skill.short || skill.name.slice(0, 3).toUpperCase()}</span>`;
+    card.innerHTML = `
+      <div class="w-14 h-14 mb-4 rounded-full grid place-items-center bg-slate-100 dark:bg-slate-800 overflow-hidden p-2.5">
+        ${iconHtml}
+      </div>
+      <h3 class="font-semibold text-slate-900 dark:text-white mb-3">${skill.name}</h3>
+      <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${SKILL_LEVEL_STYLES[skill.level] || SKILL_LEVEL_STYLES.Basic}">
+        <span class="w-1.5 h-1.5 rounded-full ${SKILL_LEVEL_DOTS[skill.level] || SKILL_LEVEL_DOTS.Basic}"></span>
+        ${skill.level}
+      </span>`;
+    return card;
+  }
+
+  const SKILLS_PER_MOBILE_PAGE = 4;
+
   function renderSkillGrid() {
     const grid = document.getElementById('skills-grid');
     grid.innerHTML = '';
     const cat = skillCategories[activeSkillTab];
     if (!cat) return;
-    cat.items.forEach((skill) => {
-      const card = document.createElement('div');
-      card.className = 'reveal p-4 text-center flex flex-col items-center transition-transform duration-300 ease-out hover:-translate-y-1';
-      const iconHtml = skill.icon
-        ? `<img src="${skill.icon}" alt="${skill.name}" class="w-full h-full object-contain" loading="lazy" />`
-        : `<span class="text-xs font-bold tracking-wide text-slate-500 dark:text-slate-400">${skill.short || skill.name.slice(0, 3).toUpperCase()}</span>`;
-      card.innerHTML = `
-        <div class="w-14 h-14 mb-4 rounded-full grid place-items-center bg-slate-100 dark:bg-slate-800 overflow-hidden p-2.5">
-          ${iconHtml}
-        </div>
-        <h3 class="font-semibold text-slate-900 dark:text-white mb-3">${skill.name}</h3>
-        <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${SKILL_LEVEL_STYLES[skill.level] || SKILL_LEVEL_STYLES.Basic}">
-          <span class="w-1.5 h-1.5 rounded-full ${SKILL_LEVEL_DOTS[skill.level] || SKILL_LEVEL_DOTS.Basic}"></span>
-          ${skill.level}
-        </span>`;
-      grid.appendChild(card);
-      revealObserver.observe(card);
-    });
+    // Group into pages of 4 for the mobile swipe view. `.skill-page` becomes
+    // `display: contents` at sm+, so on larger screens items join the normal
+    // responsive grid as if this wrapper wasn't there.
+    for (let i = 0; i < cat.items.length; i += SKILLS_PER_MOBILE_PAGE) {
+      const page = document.createElement('div');
+      page.className = 'skill-page grid grid-cols-2 gap-x-2 gap-y-8 w-full shrink-0 snap-center sm:contents';
+      cat.items.slice(i, i + SKILLS_PER_MOBILE_PAGE).forEach((skill) => {
+        const card = buildSkillCard(skill);
+        page.appendChild(card);
+        revealObserver.observe(card);
+      });
+      grid.appendChild(page);
+    }
   }
 
   function renderSkills(categories) {
