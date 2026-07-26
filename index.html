@@ -640,7 +640,6 @@
         </div>
         <h3 id="project-modal-title" class="text-xl font-bold text-slate-900 dark:text-white mb-3"></h3>
         <p id="project-modal-desc" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-5"></p>
-        <div id="project-modal-tags" class="flex flex-wrap gap-2 mb-5"></div>
         <div id="project-modal-details"></div>
       </div>
 
@@ -1396,6 +1395,18 @@
     });
   }
 
+  // Locks scroll on both <html> and <body> (whichever the browser treats as the
+  // actual scrolling element) so the page behind an open modal/lightbox can't
+  // scroll with the mouse wheel. Counter-based so a lightbox opened on top of
+  // the project modal doesn't prematurely unlock the page when it closes.
+  let scrollLockCount = 0;
+  function lockPageScroll(lock) {
+    scrollLockCount = Math.max(0, scrollLockCount + (lock ? 1 : -1));
+    const shouldLock = scrollLockCount > 0;
+    document.documentElement.classList.toggle('overflow-hidden', shouldLock);
+    document.body.classList.toggle('overflow-hidden', shouldLock);
+  }
+
   function openProjectModal(project) {
     modalImages = Array.isArray(project.images) ? project.images : [];
     modalImageIndex = 0;
@@ -1403,9 +1414,6 @@
     document.getElementById('project-modal-featured').classList.toggle('hidden', !project.featured);
     document.getElementById('project-modal-title').textContent = project.title;
     document.getElementById('project-modal-desc').textContent = project.desc;
-    document.getElementById('project-modal-tags').innerHTML = (project.tags || [])
-      .map((t) => `<span class="text-xs font-mono px-2.5 py-1 rounded-md bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400">${t}</span>`)
-      .join('');
     // Full-width single-column list (not the sm:columns-2 used for the narrower
     // Journey cards) — the modal is wide enough that each bullet reads better as
     // one long line than being split into two cramped columns.
@@ -1421,12 +1429,12 @@
       : '';
     renderModalImages(project);
     document.getElementById('project-modal').classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
+    lockPageScroll(true);
   }
 
   function closeProjectModal() {
     document.getElementById('project-modal').classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
+    lockPageScroll(false);
   }
 
   document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeProjectModal));
@@ -1459,12 +1467,12 @@
     lightboxIndex = index;
     renderLightboxImage();
     lightboxEl.classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
+    lockPageScroll(true);
   }
 
   function closeLightbox() {
     lightboxEl.classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
+    lockPageScroll(false);
   }
 
   // Career Transition Gallery: auto-scrolling marquee, draggable to pan left/right (no lightbox)
