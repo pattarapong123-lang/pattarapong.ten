@@ -630,7 +630,7 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
 
-      <div class="p-6 sm:p-8 pb-0 max-w-3xl">
+      <div class="p-6 sm:p-8 pb-0">
         <div class="flex items-center gap-2 mb-3">
           <span id="project-modal-category" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white"></span>
           <span id="project-modal-featured" class="hidden inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400">
@@ -1404,12 +1404,17 @@
     document.getElementById('project-modal-tags').innerHTML = (project.tags || [])
       .map((t) => `<span class="text-xs font-mono px-2.5 py-1 rounded-md bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400">${t}</span>`)
       .join('');
+    // Full-width single-column list (not the sm:columns-2 used for the narrower
+    // Journey cards) — the modal is wide enough that each bullet reads better as
+    // one long line than being split into two cramped columns.
     const detailsEl = document.getElementById('project-modal-details');
     detailsEl.innerHTML = Array.isArray(project.details) && project.details.length
       ? project.details.map((group) => `
         <div class="mb-4 last:mb-0">
           <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">${group.title}</p>
-          ${renderResponsibilityList(group.items)}
+          <ul class="space-y-1.5">
+            ${group.items.map((it) => `<li class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex gap-2"><span class="text-accent-600 dark:text-accent-400">&bull;</span><span>${it}</span></li>`).join('')}
+          </ul>
         </div>`).join('')
       : '';
     renderModalImages(project);
