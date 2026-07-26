@@ -1201,6 +1201,16 @@
       card.style.setProperty('--d', i);
       row.appendChild(card);
     });
+    // Pad a short last page with invisible placeholder cards (same markup/size as a
+    // real card, just hidden) so the row always keeps its full 2-row height —
+    // otherwise a 1-row page collapses to 0 height for that row (empty divs have no
+    // intrinsic size) and everything below jumps up/down as pages auto-advance.
+    for (let i = pageItems.length; i < CAROUSEL_PER_PAGE; i++) {
+      const placeholder = buildSkillMiniCard({ name: '', level: 'Basic' });
+      placeholder.className += ' invisible';
+      placeholder.setAttribute('aria-hidden', 'true');
+      row.appendChild(placeholder);
+    }
 
     stage.innerHTML = '';
     stage.appendChild(row);
