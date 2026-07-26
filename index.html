@@ -144,14 +144,44 @@
     mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
   }
 
-  /* Skills grid: on mobile, swipeable pages of 4 items (scroll-snap); .skill-page
-     becomes `display: contents` at sm+ so it drops out and items join the normal grid. */
-  .no-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+  /* Skills carousel: mobile/iPad (<1024px) shows one row of 4 items that auto-advances
+     to the next batch every 3s with a bounce-in pop. Desktop (lg+) uses the plain grid
+     in #skills-grid instead — see renderActiveSkillView() in the script below. */
+  .skill-carousel-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
   }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .skill-carousel-item {
+    animation: skillPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(var(--d, 0) * 60ms);
+  }
+  @keyframes skillPop {
+    0% { opacity: 0; transform: scale(0.55) translateY(10px); }
+    60% { opacity: 1; transform: scale(1.08) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .skill-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .skill-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    border: none;
+    padding: 0;
+    background-color: #cbd5e1; /* slate-300 */
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+  .dark .skill-carousel-dot {
+    background-color: #334155; /* slate-700 */
+  }
+  .skill-carousel-dot.is-active {
+    background-color: #f97316; /* orange-500 */
+    transform: scale(1.25);
   }
 </style>
 </head>
@@ -438,7 +468,11 @@
 
     <div id="skills-tabs" class="reveal flex flex-wrap justify-center gap-2.5 mb-12"></div>
 
-    <div id="skills-grid" class="no-scrollbar flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:snap-none md:grid-cols-4 lg:grid-cols-6 sm:gap-x-2 sm:gap-y-8"></div>
+    <!-- Desktop / large tablet (lg+, >=1024px): standard grid, all items at once -->
+    <div id="skills-grid" class="hidden lg:grid lg:grid-cols-6 gap-x-2 gap-y-8"></div>
+
+    <!-- Mobile / iPad (below 1024px): single row of 4, auto-advances every 3s -->
+    <div id="skills-carousel" class="reveal lg:hidden"></div>
   </div>
 </section>
 
@@ -733,20 +767,6 @@
       ] },
     ],
     skills: [
-      { category: 'Networking', items: [
-        { name: 'Switch L3', level: 'Intermediate', icon: './photos/icons/switch-l3.png' },
-        { name: 'Switch L2', level: 'Advanced', icon: './photos/icons/switch-l2.png' },
-        { name: 'Wi-Fi', level: 'Intermediate', icon: './photos/icons/wifi.png' },
-        { name: 'LAN', level: 'Advanced', icon: './photos/icons/lan.png' },
-        { name: 'Fiber Optic', level: 'Intermediate', icon: './photos/icons/fiber.png' },
-        { name: 'IP / VLAN', level: 'Intermediate', icon: './photos/icons/ip.png' },
-        { name: 'Firewall', level: 'Basic', icon: './photos/icons/firewall.png' },
-        { name: 'Huawei', level: 'Intermediate', icon: './photos/icons/huawei.png' },
-        { name: 'Cisco', level: 'Intermediate', icon: './photos/icons/cisco.png' },
-        { name: 'Ruijie', level: 'Intermediate', icon: './photos/icons/ruijie.png' },
-        { name: 'H3C', level: 'Intermediate', icon: './photos/icons/h3c.png' },
-        { name: 'Unifi', level: 'Intermediate', icon: './photos/icons/unifi.png' },
-      ] },
       { category: 'Server & Monitoring Center', items: [
         { name: 'Proxmox', level: 'Intermediate', icon: './photos/icons/proxmox.png' },
         { name: 'VMware', level: 'Intermediate', icon: './photos/icons/vm.png' },
@@ -804,6 +824,20 @@
         { name: 'Stock Card', level: 'Intermediate', short: 'STK' },
         { name: 'Device Equipment', level: 'Intermediate', short: 'EQP' },
         { name: 'Expired Asset', level: 'Intermediate', short: 'EXP' },
+      ] },
+      { category: 'Networking', items: [
+        { name: 'Switch L3', level: 'Intermediate', icon: './photos/icons/switch-l3.png' },
+        { name: 'Switch L2', level: 'Advanced', icon: './photos/icons/switch-l2.png' },
+        { name: 'Wi-Fi', level: 'Intermediate', icon: './photos/icons/wifi.png' },
+        { name: 'LAN', level: 'Advanced', icon: './photos/icons/lan.png' },
+        { name: 'Fiber Optic', level: 'Intermediate', icon: './photos/icons/fiber.png' },
+        { name: 'IP / VLAN', level: 'Intermediate', icon: './photos/icons/ip.png' },
+        { name: 'Firewall', level: 'Basic', icon: './photos/icons/firewall.png' },
+        { name: 'Huawei', level: 'Intermediate', icon: './photos/icons/huawei.png' },
+        { name: 'Cisco', level: 'Intermediate', icon: './photos/icons/cisco.png' },
+        { name: 'Ruijie', level: 'Intermediate', icon: './photos/icons/ruijie.png' },
+        { name: 'H3C', level: 'Intermediate', icon: './photos/icons/h3c.png' },
+        { name: 'Unifi', level: 'Intermediate', icon: './photos/icons/unifi.png' },
       ] },
     ],
     projects: [
@@ -1104,7 +1138,7 @@
       btn.addEventListener('click', () => {
         activeSkillTab = Number(btn.dataset.skillTab);
         renderSkillTabs();
-        renderSkillGrid();
+        renderActiveSkillView();
       });
     });
   }
@@ -1127,33 +1161,133 @@
     return card;
   }
 
-  const SKILLS_PER_MOBILE_PAGE = 4;
-
   function renderSkillGrid() {
     const grid = document.getElementById('skills-grid');
     grid.innerHTML = '';
     const cat = skillCategories[activeSkillTab];
     if (!cat) return;
-    // Group into pages of 4 for the mobile swipe view. `.skill-page` becomes
-    // `display: contents` at sm+, so on larger screens items join the normal
-    // responsive grid as if this wrapper wasn't there.
-    for (let i = 0; i < cat.items.length; i += SKILLS_PER_MOBILE_PAGE) {
-      const page = document.createElement('div');
-      page.className = 'skill-page grid grid-cols-2 gap-x-2 gap-y-8 w-full shrink-0 snap-center sm:contents';
-      cat.items.slice(i, i + SKILLS_PER_MOBILE_PAGE).forEach((skill) => {
-        const card = buildSkillCard(skill);
-        page.appendChild(card);
-        revealObserver.observe(card);
+    cat.items.forEach((skill) => {
+      const card = buildSkillCard(skill);
+      grid.appendChild(card);
+      revealObserver.observe(card);
+    });
+  }
+
+  /* ---------------------- Skills carousel (mobile / iPad, <1024px) ----------------------
+   * Shows one row of 4 items for the active category; every 3s it advances to the next
+   * batch with a bounce-in pop (skillPop keyframes). Tapping a dot or swiping the row
+   * jumps directly and restarts the 3s timer so it doesn't fight the user's input. */
+  const CAROUSEL_PER_PAGE = 6;
+  const CAROUSEL_INTERVAL = 3000;
+  const carouselMQ = window.matchMedia('(max-width: 1023px)');
+  let carouselPage = 0;
+  let carouselTimer = null;
+  let carouselRestartTimer = null;
+
+  function buildSkillMiniCard(skill) {
+    const card = document.createElement('div');
+    card.className = 'skill-carousel-item flex flex-col items-center text-center';
+    const iconHtml = skill.icon
+      ? `<img src="${skill.icon}" alt="${skill.name}" class="w-full h-full object-contain" loading="lazy" draggable="false" />`
+      : `<span class="text-[10px] font-bold tracking-wide text-slate-500 dark:text-slate-400">${skill.short || skill.name.slice(0, 3).toUpperCase()}</span>`;
+    card.innerHTML = `
+      <div class="w-9 h-9 mb-1.5 rounded-full grid place-items-center bg-slate-100 dark:bg-slate-800 overflow-hidden p-1.5">
+        ${iconHtml}
+      </div>
+      <h3 class="text-[10px] font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2 min-h-[24px]">${skill.name}</h3>
+      <span class="w-1.5 h-1.5 rounded-full ${SKILL_LEVEL_DOTS[skill.level] || SKILL_LEVEL_DOTS.Basic}"></span>`;
+    return card;
+  }
+
+  function renderSkillCarousel() {
+    const stage = document.getElementById('skills-carousel');
+    const cat = skillCategories[activeSkillTab];
+    if (!stage || !cat || !cat.items.length) return;
+    const totalPages = Math.max(1, Math.ceil(cat.items.length / CAROUSEL_PER_PAGE));
+    carouselPage = ((carouselPage % totalPages) + totalPages) % totalPages;
+    const start = carouselPage * CAROUSEL_PER_PAGE;
+    const pageItems = cat.items.slice(start, start + CAROUSEL_PER_PAGE);
+
+    const row = document.createElement('div');
+    row.className = 'skill-carousel-row';
+    pageItems.forEach((skill, i) => {
+      const card = buildSkillMiniCard(skill);
+      card.style.setProperty('--d', i);
+      row.appendChild(card);
+    });
+
+    stage.innerHTML = '';
+    stage.appendChild(row);
+
+    if (totalPages > 1) {
+      const dots = document.createElement('div');
+      dots.className = 'skill-carousel-dots';
+      dots.innerHTML = Array.from({ length: totalPages }).map((_, i) => `
+        <button type="button" class="skill-carousel-dot ${i === carouselPage ? 'is-active' : ''}" data-carousel-dot="${i}" aria-label="Go to skills page ${i + 1}"></button>`).join('');
+      dots.querySelectorAll('[data-carousel-dot]').forEach((dot) => {
+        dot.addEventListener('click', () => {
+          carouselPage = Number(dot.dataset.carouselDot);
+          renderSkillCarousel();
+          restartCarouselTimer();
+        });
       });
-      grid.appendChild(page);
+      stage.appendChild(dots);
+    }
+
+    // Manual swipe: lets the user look at their own pace between auto-advances.
+    let touchStartX = null;
+    row.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    row.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      touchStartX = null;
+      if (Math.abs(dx) > 40) {
+        carouselPage += dx < 0 ? 1 : -1;
+        renderSkillCarousel();
+        restartCarouselTimer();
+      }
+    }, { passive: true });
+  }
+
+  function startCarouselTimer() {
+    clearInterval(carouselTimer);
+    carouselTimer = setInterval(() => {
+      carouselPage += 1;
+      renderSkillCarousel();
+    }, CAROUSEL_INTERVAL);
+  }
+
+  function stopCarouselTimer() {
+    clearInterval(carouselTimer);
+    clearTimeout(carouselRestartTimer);
+  }
+
+  function restartCarouselTimer() {
+    clearInterval(carouselTimer);
+    clearTimeout(carouselRestartTimer);
+    carouselRestartTimer = setTimeout(startCarouselTimer, CAROUSEL_INTERVAL);
+  }
+
+  function renderActiveSkillView() {
+    if (carouselMQ.matches) {
+      carouselPage = 0;
+      renderSkillCarousel();
+      startCarouselTimer();
+    } else {
+      stopCarouselTimer();
+      renderSkillGrid();
     }
   }
+
+  carouselMQ.addEventListener('change', renderActiveSkillView);
 
   function renderSkills(categories) {
     skillCategories = categories;
     activeSkillTab = 0;
     renderSkillTabs();
-    renderSkillGrid();
+    renderActiveSkillView();
   }
 
   let allProjects = [];
