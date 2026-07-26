@@ -625,12 +625,12 @@
 <div id="project-modal" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
   <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" data-modal-close></div>
   <div class="relative z-10 flex items-start sm:items-center justify-center min-h-full p-4 sm:p-6">
-    <div class="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
+    <div class="relative w-full max-w-[1440px] max-h-[92vh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
       <button type="button" data-modal-close aria-label="Close" class="absolute top-4 right-4 z-20 w-9 h-9 grid place-items-center rounded-full bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
 
-      <div class="p-6 sm:p-8 pb-0">
+      <div class="p-6 sm:p-8 pb-0 max-w-3xl">
         <div class="flex items-center gap-2 mb-3">
           <span id="project-modal-category" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white"></span>
           <span id="project-modal-featured" class="hidden inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400">
@@ -644,7 +644,7 @@
         <div id="project-modal-details"></div>
       </div>
 
-      <div id="project-modal-images" class="grid grid-cols-2 gap-2 sm:gap-3 p-6 sm:p-8"></div>
+      <div id="project-modal-images" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 p-6 sm:p-8"></div>
     </div>
   </div>
 </div>
