@@ -640,7 +640,8 @@
         </div>
         <h3 id="project-modal-title" class="text-xl font-bold text-slate-900 dark:text-white mb-3"></h3>
         <p id="project-modal-desc" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-5"></p>
-        <div id="project-modal-tags" class="flex flex-wrap gap-2"></div>
+        <div id="project-modal-tags" class="flex flex-wrap gap-2 mb-5"></div>
+        <div id="project-modal-details"></div>
       </div>
 
       <div id="project-modal-images" class="grid grid-cols-2 gap-2 sm:gap-3 p-6 sm:p-8"></div>
@@ -821,8 +822,33 @@
     projects: [
       {
         title: 'Newstore IT System Setup — Dohome Amata Nakorn', category: 'Infrastructure', featured: true, icon: '🏗️',
-        desc: 'Planned and delivered the complete IT infrastructure for a greenfield Dohome branch from the ground up in 3 months — core/access network switching, enterprise Wi-Fi, server virtualization, POS systems, CCTV, access control, and IoT smart lighting — culminating in a successful on-time grand-opening handover.',
+        desc: 'Planned and managed the complete IT system for a greenfield Dohome branch — from the very start through to a successful grand opening — within a 3-month timeframe.',
         tags: ['Network Setup', 'VMware & Proxmox', 'POS Systems', 'CCTV & Access Control', 'IoT Smart Switches'],
+        details: [
+          { title: 'Network & Infrastructure', items: [
+            'Core & Distribution Switches: Installed and configured a Core Switch (Layer 3) for Inter-VLAN routing, Default Gateway, DHCP Server, and Security & ACL, plus Layer 2 access switches distributed across 10–15 racks.',
+            'Fiber Optic & Redundancy: Connected rack systems via Fiber Optic SFP+ modules with Link Aggregation, redundancy, and backup network paths for maximum stability.',
+            'Wireless Network: Installed and configured a Wireless Controller managing 50–80 Access Points across the branch, including SSID management and RF tuning.',
+            'Server & Virtualization: Deployed servers running VMware and Proxmox virtualization to host virtual machines for various business systems.',
+          ] },
+          { title: 'Hardware & End-User Devices', items: [
+            'Computer Systems: Prepared and installed around 100 computers across all workstations, covering both hardware and software setup.',
+            'Peripherals: Installed and configured around 30 printers, both Wi-Fi and wired LAN.',
+            'Access Control: Installed and configured face-recognition and fingerprint access control systems.',
+          ] },
+          { title: 'Retail & POS Systems', items: [
+            'POS & Hardware: Installed and commissioned POS systems, barcode scanners, thermal printers, cash drawers, and EDC terminals.',
+          ] },
+          { title: 'Special Systems & IoT', items: [
+            'CCTV & Security: Installed and configured CCTV, DSS, and NVR systems with fixed IPs for around 200 cameras branch-wide.',
+            'Smart Lighting: Configured Wi-Fi smart switches to control around 500 high-bay lights across the warehouse and branch.',
+          ] },
+          { title: 'Management, QA & Handover', items: [
+            'Contractor QA: Inspected contractor cabling work and verified compliance against a standardized checklist.',
+            'Knowledge Transfer: Trained and mentored on-site branch IT staff alongside the system installation.',
+            'Project Closure: Rechecked all systems end-to-end until the branch successfully opened for business on schedule, marking project completion.',
+          ] },
+        ],
         images: [
           './photos/Projects/setup-cb/1.jpg', './photos/Projects/setup-cb/4a.jpg', './photos/Projects/setup-cb/4b.jpg',
           './photos/Projects/setup-cb/1a.jpg', './photos/Projects/setup-cb/1b.jpg', './photos/Projects/setup-cb/2a.jpg',
@@ -1378,6 +1404,14 @@
     document.getElementById('project-modal-tags').innerHTML = (project.tags || [])
       .map((t) => `<span class="text-xs font-mono px-2.5 py-1 rounded-md bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400">${t}</span>`)
       .join('');
+    const detailsEl = document.getElementById('project-modal-details');
+    detailsEl.innerHTML = Array.isArray(project.details) && project.details.length
+      ? project.details.map((group) => `
+        <div class="mb-4 last:mb-0">
+          <p class="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-2">${group.title}</p>
+          ${renderResponsibilityList(group.items)}
+        </div>`).join('')
+      : '';
     renderModalImages(project);
     document.getElementById('project-modal').classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
