@@ -54,6 +54,11 @@
 <style>
   html { scroll-behavior: smooth; overflow-x: hidden; }
   body { transition: background-color 0.3s ease, color 0.3s ease; }
+  /* Force the fixed navbar onto its own GPU compositing layer. Without this, some
+     mobile browsers (notably iOS Safari) fail to paint content inside a `position:
+     fixed` header on first load — it only appears after a scroll/repaint — which is
+     what made the mobile hamburger/theme-toggle icons look missing/misaligned. */
+  #navbar { transform: translateZ(0); -webkit-backface-visibility: hidden; }
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.in-view { opacity: 1; transform: translateY(0); }
   ::-webkit-scrollbar { width: 10px; }
