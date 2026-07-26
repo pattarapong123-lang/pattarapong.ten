@@ -850,11 +850,11 @@
           ] },
         ],
         images: [
-          './photos/Projects/setup-cb/1.jpg', './photos/Projects/setup-cb/4a.jpg', './photos/Projects/setup-cb/4b.jpg',
-          './photos/Projects/setup-cb/1a.jpg', './photos/Projects/setup-cb/1b.jpg', './photos/Projects/setup-cb/2a.jpg',
-          './photos/Projects/setup-cb/3a.jpg', './photos/Projects/setup-cb/3b.jpg', './photos/Projects/setup-cb/5a.jpg',
-          './photos/Projects/setup-cb/5b.jpg', './photos/Projects/setup-cb/6a.jpg', './photos/Projects/setup-cb/6b.jpg',
-          './photos/Projects/setup-cb/2b.jpg',
+          './photos/Projects/setup-cb/1.jpg', './photos/Projects/setup-cb/1a.jpg', './photos/Projects/setup-cb/1b.jpg',
+          './photos/Projects/setup-cb/2a.jpg', './photos/Projects/setup-cb/2b.jpg', './photos/Projects/setup-cb/3a.jpg',
+          './photos/Projects/setup-cb/3b.jpg', './photos/Projects/setup-cb/4a.jpg', './photos/Projects/setup-cb/4b.jpg',
+          './photos/Projects/setup-cb/5a.jpg', './photos/Projects/setup-cb/5b.jpg', './photos/Projects/setup-cb/6a.jpg',
+          './photos/Projects/setup-cb/6b.jpg',
         ],
       },
       {
@@ -1355,9 +1355,12 @@
     filtered.forEach((p) => {
       const card = document.createElement('div');
       card.className = 'reveal cursor-pointer rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg hover:border-orange-400 dark:hover:border-orange-500 transition-all';
+      const hasCoverPhoto = Array.isArray(p.images) && p.images.length > 0;
       card.innerHTML = `
-        <div class="relative h-48 flex items-center justify-center text-5xl bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950">
-          ${p.icon}
+        <div class="relative h-48 flex items-center justify-center text-5xl ${hasCoverPhoto ? '' : 'bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950'}">
+          ${hasCoverPhoto
+            ? `<img src="${p.images[0]}" alt="${p.title} cover photo" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />`
+            : p.icon}
           <span class="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white">${p.category}</span>
         </div>
         <div class="p-6">
