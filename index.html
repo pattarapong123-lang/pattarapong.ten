@@ -190,22 +190,21 @@
     transform: scale(1.25);
   }
 
-  /* About Me layout: mobile stacks text -> photo -> Personal Details (photo moved
-     above the details list); desktop keeps text+details in a left column with the
-     photo spanning both rows on the right, via named grid-template-areas. */
+  /* About Me layout: mobile stacks photo -> Personal Details; desktop places
+     Personal Details in a left column with the photo on the right, via named
+     grid-template-areas. */
   .about-grid {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas: "text" "photo" "details";
+    grid-template-areas: "photo" "details";
     gap: 2.5rem;
   }
-  .about-grid > .about-text { grid-area: text; }
   .about-grid > .about-photo { grid-area: photo; }
   .about-grid > .about-details { grid-area: details; }
   @media (min-width: 768px) {
     .about-grid {
       grid-template-columns: 3fr 2fr;
-      grid-template-areas: "text photo" "details photo";
+      grid-template-areas: "details photo";
       align-items: start;
     }
   }
@@ -534,17 +533,6 @@
       </div>
 
       <div class="about-grid">
-        <div class="about-text reveal text-slate-600 dark:text-slate-400 leading-relaxed">
-          <p>
-            I'm an IT professional focused on keeping infrastructure reliable and users productive.
-            My day-to-day spans <span class="text-slate-900 dark:text-white font-medium">helpdesk &amp; end-user support</span>,
-            <span class="text-slate-900 dark:text-white font-medium"> system administration</span>, and
-            <span class="text-slate-900 dark:text-white font-medium"> network infrastructure</span> — diagnosing
-            issues quickly, documenting fixes clearly, and building processes that prevent the same ticket
-            from coming back twice.
-          </p>
-        </div>
-
         <div class="about-photo reveal">
           <div class="rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm aspect-[4/5]">
             <img src="./photos/a1.jpg" alt="Portrait of Pattarapong Tensuna" class="w-full h-full object-cover" />
