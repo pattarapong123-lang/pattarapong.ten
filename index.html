@@ -1607,6 +1607,23 @@
     document.body.classList.toggle('overflow-hidden', shouldLock);
   }
 
+  // Mobile back-button support: opening the project modal or the lightbox pushes a
+  // history entry, so the phone's back gesture/button closes one overlay at a time
+  // instead of leaving the page entirely. The popstate handler only ever hides
+  // whatever is currently on top (lightbox first, since it always opens after the
+  // modal) — it never calls history.back() itself, avoiding double-pop loops.
+  function pushOverlayState() {
+    history.pushState({ overlay: true }, '');
+  }
+
+  window.addEventListener('popstate', () => {
+    if (!lightboxEl.classList.contains('hidden')) {
+      hideLightbox();
+    } else if (!document.getElementById('project-modal').classList.contains('hidden')) {
+      hideProjectModal();
+    }
+  });
+
   function openProjectModal(project) {
     modalImages = Array.isArray(project.images) ? project.images : [];
     modalImageIndex = 0;
@@ -1629,16 +1646,26 @@
     renderModalImages(project);
     document.getElementById('project-modal').classList.remove('hidden');
     lockPageScroll(true);
+    pushOverlayState();
   }
 
-  function closeProjectModal() {
+  function hideProjectModal() {
     document.getElementById('project-modal').classList.add('hidden');
     lockPageScroll(false);
   }
 
+  // Closes via history.back() (rather than hiding directly) so the pushed overlay
+  // state gets consumed here too — keeping the back-button step count in sync
+  // whether the user closes with a tap or with the back button itself.
+  function closeProjectModal() {
+    if (!document.getElementById('project-modal').classList.contains('hidden')) history.back();
+  }
+
   document.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', closeProjectModal));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeProjectModal();
+    // Guard against the lightbox's own Escape handler also firing — only the
+    // topmost overlay should respond, otherwise Escape would pop history twice.
+    if (e.key === 'Escape' && lightboxEl.classList.contains('hidden')) closeProjectModal();
   });
 
   /* ---------------------------- Image lightbox (full view + slide) ---------------------------- */
@@ -1667,11 +1694,16 @@
     renderLightboxImage();
     lightboxEl.classList.remove('hidden');
     lockPageScroll(true);
+    pushOverlayState();
+  }
+
+  function hideLightbox() {
+    lightboxEl.classList.add('hidden');
+    lockPageScroll(false);
   }
 
   function closeLightbox() {
-    lightboxEl.classList.add('hidden');
-    lockPageScroll(false);
+    if (!lightboxEl.classList.contains('hidden')) history.back();
   }
 
   // Career Transition Gallery: auto-scrolling marquee, draggable to pan left/right (no lightbox)
