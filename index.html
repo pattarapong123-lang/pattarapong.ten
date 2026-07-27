@@ -511,9 +511,9 @@
       </p>
     </div>
 
-    <div id="projects-tabs" class="reveal flex flex-wrap justify-center gap-2.5 mb-12"></div>
-
     <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <div id="projects-pagination" class="flex items-center justify-center gap-2 mt-12"></div>
   </div>
 </section>
 
@@ -632,7 +632,6 @@
 
       <div class="p-6 sm:p-8 pb-0">
         <div class="flex items-center gap-2 mb-3">
-          <span id="project-modal-category" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white"></span>
           <span id="project-modal-featured" class="hidden inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400">
             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="m12 2 2.9 6.9L22 9.6l-5.5 4.9L18 22l-6-3.6L6 22l1.5-7.5L2 9.6l7.1-.7L12 2Z"/></svg>
             Featured
@@ -1396,30 +1395,28 @@
   }
 
   let allProjects = [];
-  let activeProjectFilter = 'All';
+  let projectsPage = 0;
+  const PROJECTS_PER_PAGE = 6;
 
-  function renderProjectTabs() {
-    const tabs = document.getElementById('projects-tabs');
-    const categories = ['All', ...Array.from(new Set(allProjects.map((p) => p.category)))];
-    tabs.innerHTML = categories.map((cat) => {
-      const count = cat === 'All' ? allProjects.length : allProjects.filter((p) => p.category === cat).length;
-      const isActive = cat === activeProjectFilter;
-      return `
-        <button type="button" data-project-filter="${cat}" class="project-tab-btn inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-colors ${
-          isActive
-            ? 'bg-orange-500 border-orange-500 text-white'
-            : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-orange-400 dark:hover:border-orange-500'
-        }">
-          ${cat}
-          <span class="text-xs font-mono px-1.5 py-0.5 rounded-md ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}">${count}</span>
-        </button>`;
-    }).join('');
+  function renderProjectPagination() {
+    const pagination = document.getElementById('projects-pagination');
+    const pageCount = Math.ceil(allProjects.length / PROJECTS_PER_PAGE);
+    if (pageCount <= 1) {
+      pagination.innerHTML = '';
+      return;
+    }
+    pagination.innerHTML = Array.from({ length: pageCount }, (_, i) => i).map((i) => `
+      <button type="button" data-page="${i}" class="project-page-btn w-9 h-9 rounded-lg text-sm font-semibold border transition-colors ${
+        i === projectsPage
+          ? 'bg-orange-500 border-orange-500 text-white'
+          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-orange-400 dark:hover:border-orange-500'
+      }">${i + 1}</button>`).join('');
 
-    tabs.querySelectorAll('.project-tab-btn').forEach((btn) => {
+    pagination.querySelectorAll('.project-page-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        activeProjectFilter = btn.dataset.projectFilter;
-        renderProjectTabs();
+        projectsPage = Number(btn.dataset.page);
         renderProjectGrid();
+        document.getElementById('projects-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
   }
@@ -1427,11 +1424,10 @@
   function renderProjectGrid() {
     const grid = document.getElementById('projects-grid');
     grid.innerHTML = '';
-    const filtered = activeProjectFilter === 'All'
-      ? allProjects
-      : allProjects.filter((p) => p.category === activeProjectFilter);
+    const start = projectsPage * PROJECTS_PER_PAGE;
+    const pageItems = allProjects.slice(start, start + PROJECTS_PER_PAGE);
 
-    filtered.forEach((p) => {
+    pageItems.forEach((p) => {
       const card = document.createElement('div');
       card.className = 'reveal cursor-pointer rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg hover:border-orange-400 dark:hover:border-orange-500 transition-all';
       const hasCoverPhoto = Array.isArray(p.images) && p.images.length > 0;
@@ -1440,7 +1436,6 @@
           ${hasCoverPhoto
             ? `<img src="${p.images[0]}" alt="${p.title} cover photo" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />`
             : p.icon}
-          <span class="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-900/80 text-white">${p.category}</span>
         </div>
         <div class="p-6">
           ${p.featured ? `
@@ -1455,6 +1450,8 @@
       grid.appendChild(card);
       revealObserver.observe(card);
     });
+
+    renderProjectPagination();
   }
 
   /* ---------------------------- Project detail modal ---------------------------- */
@@ -1491,7 +1488,6 @@
   function openProjectModal(project) {
     modalImages = Array.isArray(project.images) ? project.images : [];
     modalImageIndex = 0;
-    document.getElementById('project-modal-category').textContent = project.category;
     document.getElementById('project-modal-featured').classList.toggle('hidden', !project.featured);
     document.getElementById('project-modal-title').textContent = project.title;
     document.getElementById('project-modal-desc').textContent = project.desc;
@@ -1686,8 +1682,7 @@
 
   function renderProjects(projects) {
     allProjects = projects;
-    activeProjectFilter = 'All';
-    renderProjectTabs();
+    projectsPage = 0;
     renderProjectGrid();
   }
 
