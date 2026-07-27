@@ -1437,14 +1437,16 @@
             ? `<img src="${p.images[0]}" alt="${p.title} cover photo" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />`
             : p.icon}
         </div>
-        <div class="p-6">
-          ${p.featured ? `
-            <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400 mb-3">
-              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="m12 2 2.9 6.9L22 9.6l-5.5 4.9L18 22l-6-3.6L6 22l1.5-7.5L2 9.6l7.1-.7L12 2Z"/></svg>
-              Featured
-            </span>` : ''}
-          <h3 class="font-semibold text-slate-900 dark:text-white mb-4">${p.title}</h3>
-          <span class="text-xs font-semibold text-orange-500 dark:text-orange-400">More →</span>
+        <div class="p-5">
+          <h3 class="font-semibold text-slate-900 dark:text-white mb-3">${p.title}</h3>
+          <div class="flex items-center justify-between">
+            ${p.featured ? `
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-500 dark:text-amber-400">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="m12 2 2.9 6.9L22 9.6l-5.5 4.9L18 22l-6-3.6L6 22l1.5-7.5L2 9.6l7.1-.7L12 2Z"/></svg>
+                Featured
+              </span>` : '<span></span>'}
+            <span class="text-xs font-semibold text-orange-500 dark:text-orange-400">More →</span>
+          </div>
         </div>`;
       card.addEventListener('click', () => openProjectModal(p));
       grid.appendChild(card);
@@ -1459,9 +1461,12 @@
       placeholder.className = 'invisible rounded-xl overflow-hidden';
       placeholder.innerHTML = `
         <div class="h-64"></div>
-        <div class="p-6">
-          <h3 class="font-semibold mb-4">&nbsp;</h3>
-          <span class="text-xs">&nbsp;</span>
+        <div class="p-5">
+          <h3 class="font-semibold mb-3">&nbsp;</h3>
+          <div class="flex items-center justify-between">
+            <span class="text-xs">&nbsp;</span>
+            <span class="text-xs">&nbsp;</span>
+          </div>
         </div>`;
       grid.appendChild(placeholder);
     }
