@@ -1432,7 +1432,7 @@
       card.className = 'reveal cursor-pointer rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:-translate-y-1 hover:shadow-lg hover:border-orange-400 dark:hover:border-orange-500 transition-all';
       const hasCoverPhoto = Array.isArray(p.images) && p.images.length > 0;
       card.innerHTML = `
-        <div class="relative h-48 flex items-center justify-center text-5xl ${hasCoverPhoto ? '' : 'bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950'}">
+        <div class="relative h-64 flex items-center justify-center text-5xl ${hasCoverPhoto ? '' : 'bg-gradient-to-br from-orange-100 to-slate-200 dark:from-slate-800 dark:to-slate-950'}">
           ${hasCoverPhoto
             ? `<img src="${p.images[0]}" alt="${p.title} cover photo" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />`
             : p.icon}
@@ -1458,7 +1458,7 @@
       const placeholder = document.createElement('div');
       placeholder.className = 'invisible rounded-xl overflow-hidden';
       placeholder.innerHTML = `
-        <div class="h-48"></div>
+        <div class="h-64"></div>
         <div class="p-6">
           <h3 class="font-semibold mb-4">&nbsp;</h3>
           <span class="text-xs">&nbsp;</span>
