@@ -1451,6 +1451,21 @@
       revealObserver.observe(card);
     });
 
+    // Pad the last page with invisible placeholder cards so the grid keeps a
+    // consistent row count across pages — otherwise a short last page (e.g. 1
+    // item) collapses the grid height and the content below jumps up.
+    for (let i = pageItems.length; i < PROJECTS_PER_PAGE; i++) {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'invisible rounded-xl overflow-hidden';
+      placeholder.innerHTML = `
+        <div class="h-48"></div>
+        <div class="p-6">
+          <h3 class="font-semibold mb-4">&nbsp;</h3>
+          <span class="text-xs">&nbsp;</span>
+        </div>`;
+      grid.appendChild(placeholder);
+    }
+
     renderProjectPagination();
   }
 
