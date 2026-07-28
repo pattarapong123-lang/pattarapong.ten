@@ -1373,8 +1373,11 @@
 
   /* ---------------------------- Navbar scroll style ---------------------------- */
   const navbar = document.getElementById('navbar');
+  let navbarScrolled = null;
   function onScroll() {
     const scrolled = window.scrollY > 20;
+    if (scrolled === navbarScrolled) return;
+    navbarScrolled = scrolled;
     navbar.classList.toggle('bg-white/80', scrolled);
     navbar.classList.toggle('dark:bg-slate-950/80', scrolled);
     navbar.classList.toggle('backdrop-blur', scrolled);
@@ -2046,6 +2049,8 @@
 
     const AUTO_SPEED = 0.6; // px per frame, steady-state auto-scroll
     const FRICTION = 0.95; // per-frame decay applied to momentum after a flick
+    let isInView = true;
+    let rafId = null;
     function tick() {
       if (isDown) {
         // offset already driven by pointermove
@@ -2058,9 +2063,20 @@
       }
       wrapOffset();
       track.style.transform = `translateX(${offset}px)`;
-      requestAnimationFrame(tick);
+      rafId = isInView ? requestAnimationFrame(tick) : null;
     }
-    requestAnimationFrame(tick);
+    // Only run the rAF loop while the marquee is actually visible — it was previously
+    // ticking every frame forever, even when scrolled off-screen.
+    const marqueeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isInView = entry.isIntersecting;
+        if (isInView && rafId === null) {
+          rafId = requestAnimationFrame(tick);
+        }
+      });
+    }, { threshold: 0 });
+    marqueeObserver.observe(wrapper);
+    rafId = requestAnimationFrame(tick);
   })();
 
   function showLightboxImage(newIndex) {
