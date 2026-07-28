@@ -201,18 +201,20 @@
     grid-template-columns: 1fr;
     grid-template-areas: "photo" "details";
     gap: 2.5rem;
-    max-width: 68rem;
-    margin-inline: auto;
   }
   .about-grid > .about-photo { grid-area: photo; justify-self: center; width: 100%; max-width: 24rem; }
   .about-grid > .about-details { grid-area: details; }
   @media (min-width: 768px) {
     .about-grid {
-      grid-template-columns: minmax(320px, 420px) 1fr;
+      grid-template-columns: 1fr 1fr;
       grid-template-areas: "photo details";
       align-items: center;
     }
-    .about-grid > .about-photo { max-width: none; }
+    /* Equal-width columns split at the container's true center; the photo is
+       right-aligned (touching that center line) and capped so it doesn't
+       balloon to half the page width, while details starts just past it. */
+    .about-grid > .about-photo { justify-self: end; max-width: 26rem; }
+    .about-grid > .about-details { justify-self: start; }
   }
 </style>
 </head>
