@@ -208,7 +208,7 @@
     .about-grid {
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "photo details";
-      align-items: center;
+      align-items: start;
     }
     /* Equal-width columns split at the container's true center; the photo is
        right-aligned (touching that center line) and capped so it doesn't
@@ -554,13 +554,9 @@
                 <p class="text-xs text-slate-500 dark:text-slate-400">Full Name</p>
                 <p class="text-sm font-medium text-slate-900 dark:text-white">Pattarapong Tensuna</p>
               </div>
-              <div>
+              <div class="col-span-2">
                 <p class="text-xs text-slate-500 dark:text-slate-400">Age</p>
                 <p class="text-sm font-medium text-slate-900 dark:text-white">31 years old</p>
-              </div>
-              <div>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Date of Birth</p>
-                <p class="text-sm font-medium text-slate-900 dark:text-white">March 23, 1998</p>
               </div>
               <div class="col-span-2">
                 <p class="text-xs text-slate-500 dark:text-slate-400">Phone Number</p>
@@ -570,9 +566,13 @@
                 <p class="text-xs text-slate-500 dark:text-slate-400">Address</p>
                 <p class="text-sm font-medium text-slate-900 dark:text-white">112 Moo 3, Nong Kaeo, Mueang Sisaket, Sisaket 33000, Thailand</p>
               </div>
-              <div>
+              <div class="col-span-2">
                 <p class="text-xs text-slate-500 dark:text-slate-400">Nationality</p>
                 <p class="text-sm font-medium text-slate-900 dark:text-white">Thai</p>
+              </div>
+              <div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Date of Birth</p>
+                <p class="text-sm font-medium text-slate-900 dark:text-white">March 23, 1998</p>
               </div>
               <div>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Availability</p>
