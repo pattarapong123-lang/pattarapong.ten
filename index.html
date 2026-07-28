@@ -190,23 +190,29 @@
     transform: scale(1.25);
   }
 
-  /* About Me layout: mobile stacks photo -> Personal Details; desktop places
-     Personal Details in a left column with the photo on the right, via named
-     grid-template-areas. */
+  /* About Me layout: mobile stacks a centered, capped-width photo above
+     Personal Details; from md up, the photo becomes a fixed-width column
+     beside the details so its portrait aspect ratio can't dominate or throw
+     off the balance against the (often shorter) text column. Vertically
+     centering the row hides any leftover height mismatch symmetrically
+     instead of leaving a dangling gap on one side. */
   .about-grid {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas: "photo" "details";
     gap: 2.5rem;
+    max-width: 56rem;
+    margin-inline: auto;
   }
-  .about-grid > .about-photo { grid-area: photo; }
+  .about-grid > .about-photo { grid-area: photo; justify-self: center; width: 100%; max-width: 20rem; }
   .about-grid > .about-details { grid-area: details; }
   @media (min-width: 768px) {
     .about-grid {
-      grid-template-columns: 2fr 3fr;
+      grid-template-columns: minmax(240px, 300px) 1fr;
       grid-template-areas: "photo details";
-      align-items: start;
+      align-items: center;
     }
+    .about-grid > .about-photo { max-width: none; }
   }
 </style>
 </head>
