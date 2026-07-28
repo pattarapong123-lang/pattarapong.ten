@@ -11,42 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-<!-- Tailwind CSS via CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['Inter', 'system-ui', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'monospace'],
-        },
-        colors: {
-          accent: {
-            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
-            400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
-            800: '#1e40af', 900: '#1e3a8a',
-          },
-        },
-        animation: {
-          'fade-in-up': 'fadeInUp 0.7s ease-out forwards',
-          blink: 'blink 1s step-end infinite',
-        },
-        keyframes: {
-          fadeInUp: {
-            '0%': { opacity: 0, transform: 'translateY(24px)' },
-            '100%': { opacity: 1, transform: 'translateY(0)' },
-          },
-          blink: {
-            '0%, 100%': { opacity: 1 },
-            '50%': { opacity: 0 },
-          },
-        },
-      },
-    },
-  };
-</script>
+<!-- Tailwind CSS: pre-built (see src/input.css + build/build.ps1 / build/build.sh) -->
+<link rel="stylesheet" href="./assets/tailwind.css" />
 
 <!-- Supabase JS client (used only if a real project is configured; otherwise the site falls back to static data) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>

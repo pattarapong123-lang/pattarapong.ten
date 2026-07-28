@@ -1,0 +1,4 @@
+# Standalone Tailwind CLI binary (~112MB — exceeds GitHub's 100MB file limit).
+# Re-download it locally with:
+#   curl -L -o build/tailwindcss.exe https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
+build/tailwindcss.exe
